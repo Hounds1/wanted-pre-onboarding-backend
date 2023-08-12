@@ -8,6 +8,9 @@ public class GivenMember {
     public static final String GIVEN_EMAIL = "test@test.test";
     public static final String GIVEN_PASSWORD = "testTest";
 
+    private static final String GIVEN_ADMIN = "admin@admin.admin";
+    private static final String GIVEN_ADMIN_PASSWORD = "admin1234";
+
     public static Member givenMember() {
         return Member.builder()
                 .id(1L)
@@ -27,4 +30,13 @@ public class GivenMember {
                 .build();
     }
 
+    public static Member givenAdminMember() {
+        return Member.builder()
+                .id(1L)
+                .email(GIVEN_ADMIN)
+                .password(GIVEN_ADMIN_PASSWORD)
+                .role(RoleType.ADMIN)
+                .activated(true)
+                .build();
+    }
 }

@@ -24,7 +24,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("Role_" + role));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
     @Override
@@ -63,8 +63,15 @@ public class CustomUserDetails implements UserDetails {
 
     public static CustomUserDetails of(final Member member) {
         return new CustomUserDetails(member.getId(),
-                member.getPassword(),
+                member.getEmail(),
                 member.getPassword(),
                 member.getRole());
+    }
+
+    public static CustomUserDetails from(final Long id,
+                                         final String email,
+                                         final String password,
+                                         final RoleType role) {
+        return new CustomUserDetails(id, email, password, role);
     }
 }

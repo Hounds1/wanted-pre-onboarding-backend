@@ -5,9 +5,11 @@ import me.hounds.wanted.onboarding.global.jwt.JwtFilter;
 import me.hounds.wanted.onboarding.global.jwt.TokenProvider;
 import me.hounds.wanted.onboarding.global.jwt.handler.JwtAccessDeniedHandler;
 import me.hounds.wanted.onboarding.global.jwt.handler.JwtAuthenticationEntryPoint;
+import me.hounds.wanted.onboarding.global.security.CustomAuditorAware;
 import me.hounds.wanted.onboarding.global.security.CustomAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +28,8 @@ import static org.springframework.web.cors.CorsConfiguration.*;
 public class SecurityConfig {
 
     private static final String PUBLIC = "/api/v1/public/**";
+    private static final String ADMIN = "/api/v1/admin/**";
+    private static final String NORMAL = "/api/v1/**";
     private final JwtAccessDeniedHandler accessDeniedHandler;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final TokenProvider tokenProvider;
@@ -33,6 +37,11 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuditorAware<String> auditorProvider() {
+        return new CustomAuditorAware();
     }
 
     @Bean
@@ -64,8 +73,9 @@ public class SecurityConfig {
                 .frameOptions().sameOrigin();
 
         security.authorizeHttpRequests()
-                .antMatchers("/", "**").permitAll()
                 .antMatchers(PUBLIC).permitAll()
+                .antMatchers(NORMAL).hasAnyRole("USER", "ADMIN")
+                .antMatchers(ADMIN).hasAnyRole("ADMIN")
                 .anyRequest().authenticated();
 
         security.apply(new JwtSecurityConfig(tokenProvider));

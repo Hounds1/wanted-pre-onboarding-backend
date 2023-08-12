@@ -2,6 +2,8 @@ package me.hounds.wanted.onboarding.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.hounds.wanted.onboarding.domain.auth.service.AuthService;
+import me.hounds.wanted.onboarding.domain.board.domain.persist.BoardRepository;
+import me.hounds.wanted.onboarding.domain.board.service.BoardService;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.MemberRepository;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,13 @@ public abstract class IntegrationTestSupport {
     protected AuthService authService;
 
     @Autowired
+    protected BoardService boardService;
+
+    @Autowired
     protected MemberRepository memberRepository;
+
+    @Autowired
+    protected BoardRepository boardRepository;
 
     @Autowired
     protected PasswordEncoder passwordEncoder;
