@@ -1,6 +1,6 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/onboard_test
+    url: jdbc:mariadb://localhost:3306/onboarding_test
     username: onboardTest
     password: 1234
