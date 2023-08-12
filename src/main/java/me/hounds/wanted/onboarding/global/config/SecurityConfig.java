@@ -1,6 +1,13 @@
 package me.hounds.wanted.onboarding.global.config;
 
+import lombok.RequiredArgsConstructor;
+import me.hounds.wanted.onboarding.global.jwt.JwtFilter;
+import me.hounds.wanted.onboarding.global.jwt.TokenProvider;
+import me.hounds.wanted.onboarding.global.jwt.handler.JwtAccessDeniedHandler;
+import me.hounds.wanted.onboarding.global.jwt.handler.JwtAuthenticationEntryPoint;
+import me.hounds.wanted.onboarding.global.security.CustomAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,9 +21,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import static org.springframework.web.cors.CorsConfiguration.*;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
+@Configuration
 public class SecurityConfig {
 
     private static final String PUBLIC = "/api/v1/public/**";
+    private final JwtAccessDeniedHandler accessDeniedHandler;
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+    private final TokenProvider tokenProvider;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -25,24 +37,38 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
+        /**
+         * 1. csrf 비활성화
+         * 2. Spring Security에서 제공하는 formLogin 비활성화
+         * 3. cors 정책 변경 (모든 외부 요청으로 부터 개방)
+         * 4. ExceptionHandler 설정
+         * 5. 외부 사이트에서 iframe 태그를 통해 랜더링 할 수 없도록 조치
+         * 6. public 키워드를 가진 url은 전체 개방 및 모든 ROLE에게 접근 허용(임시)
+         */
+        security.csrf()
+                .disable();
 
         security.formLogin()
-                .disable()
-                .csrf()
                 .disable();
 
         security.cors()
                 .configurationSource(corsConfigurationSource());
 
-        security.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        security.exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(authenticationEntryPoint);
+
+        security.authenticationProvider(new CustomAuthenticationProvider());
 
         security.headers()
-                .frameOptions()
-                .sameOrigin();
+                .frameOptions().sameOrigin();
 
         security.authorizeHttpRequests()
-                .anyRequest().permitAll();
+                .antMatchers("/", "**").permitAll()
+                .antMatchers(PUBLIC).permitAll()
+                .anyRequest().authenticated();
+
+        security.apply(new JwtSecurityConfig(tokenProvider));
 
         return security.build();
     }

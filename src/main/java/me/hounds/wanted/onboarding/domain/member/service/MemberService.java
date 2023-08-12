@@ -26,7 +26,8 @@ public class MemberService {
         member.initPassword(encoded);
         member.forJoin();
 
-        return SimpleMemberResponse.of(memberRepository.save(member));
+        Member savedMember = memberRepository.save(member);
+        return SimpleMemberResponse.of(savedMember);
     }
 
 

@@ -1,6 +1,7 @@
 package me.hounds.wanted.onboarding.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.hounds.wanted.onboarding.domain.auth.service.AuthService;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.MemberRepository;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected MemberService memberService;
+
+    @Autowired
+    protected AuthService authService;
 
     @Autowired
     protected MemberRepository memberRepository;

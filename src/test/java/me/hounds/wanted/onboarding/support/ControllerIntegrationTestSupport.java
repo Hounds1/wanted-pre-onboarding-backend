@@ -1,6 +1,7 @@
 package me.hounds.wanted.onboarding.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.hounds.wanted.onboarding.domain.auth.service.AuthService;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,6 +17,9 @@ public abstract class ControllerIntegrationTestSupport {
 
     @MockBean
     protected MemberService memberService;
+
+    @MockBean
+    protected AuthService authService;
 
     @Autowired
     protected MockMvc mockMvc;
