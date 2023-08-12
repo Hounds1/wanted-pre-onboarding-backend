@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import me.hounds.wanted.onboarding.domain.board.domain.persist.Board;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 
 @Getter
 @NoArgsConstructor
@@ -18,6 +19,7 @@ public class CreateBoardRequest {
     public Board toEntity() {
         return Board.builder()
                 .boardName(boardName)
+                .contents(new ArrayList<>())
                 .build();
     }
 }
