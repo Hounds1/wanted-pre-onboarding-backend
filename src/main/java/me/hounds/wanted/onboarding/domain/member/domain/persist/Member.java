@@ -49,6 +49,9 @@ public class Member extends BaseTimeEntity {
         this.role = role;
     }
 
+    /**
+     * 회원가입 시 기본 설정
+     */
     public void forJoin() {
         activated();
         this.role = RoleType.USER;

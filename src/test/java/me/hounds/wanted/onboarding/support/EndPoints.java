@@ -6,7 +6,8 @@ public enum EndPoints {
     /**
      * Member
      */
-    PUBLIC_MEMBER("/api/v1/public/members");
+    PUBLIC_MEMBER("/api/v1/public/members"),
+    PUBLIC_AUTH("/api/v1/public/auth");
 
 
     private final String url;

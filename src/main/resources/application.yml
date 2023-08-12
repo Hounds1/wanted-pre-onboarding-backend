@@ -10,3 +10,8 @@ spring:
 
 server:
   port: 9090
+
+jwt:
+  secret: "c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK"
+  accessTokenExpireMils: 600
+  refreshTokenExpireMils: 1800

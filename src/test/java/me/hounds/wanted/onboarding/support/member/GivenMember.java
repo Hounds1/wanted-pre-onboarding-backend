@@ -18,4 +18,13 @@ public class GivenMember {
                 .build();
     }
 
+    public static Member givenMemberNoCount() {
+        return Member.builder()
+                .email(GIVEN_EMAIL)
+                .password(GIVEN_PASSWORD)
+                .role(RoleType.USER)
+                .activated(true)
+                .build();
+    }
+
 }
