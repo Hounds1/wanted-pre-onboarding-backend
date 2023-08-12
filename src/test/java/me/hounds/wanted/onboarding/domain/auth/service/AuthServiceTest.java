@@ -9,6 +9,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,5 +37,13 @@ class AuthServiceTest extends IntegrationTestSupport {
 
         assertThat(tokens.getAccessToken().getAccessToken()).isNotBlank();
         assertThat(tokens.getRefreshToken().getRefreshToken()).isNotBlank();
+    }
+
+    @Test
+    @DisplayName("비밀번호를 틀릴 시 로그인을 거부한다.")
+    void loginDenied() {
+        LoginRequest request = new LoginRequest(GivenMember.GIVEN_EMAIL, "dhuahdviheuadf");
+
+        assertThrows(BadCredentialsException.class, () -> authService.login(request));
     }
 }

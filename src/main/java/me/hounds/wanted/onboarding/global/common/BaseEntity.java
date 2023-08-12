@@ -9,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 
 @Getter
 @MappedSuperclass
-public class BaseEntity {
+public class BaseEntity extends BaseTimeEntity{
 
     @CreatedBy
     @Column(updatable = false)

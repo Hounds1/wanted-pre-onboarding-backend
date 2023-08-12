@@ -7,10 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -23,12 +20,15 @@ import javax.persistence.Id;
 public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id",updatable = false)
     private Long id;
 
+    @Column(updatable = false)
     private String email;
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private RoleType role;
 
     private boolean activated;

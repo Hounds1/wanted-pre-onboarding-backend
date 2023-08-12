@@ -20,7 +20,13 @@ public enum ErrorCode {
     /**
      * Login
      */
-    TOKEN_NOT_FOUND(403, "A001", "토큰 확인 중 이상이 감지되었습니다.");
+    TOKEN_NOT_FOUND(403, "A001", "토큰 확인 중 이상이 감지되었습니다."),
+
+    /**
+     * Board
+     */
+    DUPLICATE_BOARD_NAME(400, "B001", "이미 사용 중인 게시판 이름입니다."),
+    BOARD_NOT_FOUND(400, "B002", "존재하지 않는 게시판입니다.");
 
     private final int code;
     private final String status;

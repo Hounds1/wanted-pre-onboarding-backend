@@ -26,6 +26,7 @@ import static org.springframework.web.cors.CorsConfiguration.*;
 public class SecurityConfig {
 
     private static final String PUBLIC = "/api/v1/public/**";
+    private static final String ADMIN = "/api/v1/admin/**";
     private final JwtAccessDeniedHandler accessDeniedHandler;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final TokenProvider tokenProvider;
@@ -64,8 +65,8 @@ public class SecurityConfig {
                 .frameOptions().sameOrigin();
 
         security.authorizeHttpRequests()
-                .antMatchers("/", "**").permitAll()
                 .antMatchers(PUBLIC).permitAll()
+                .antMatchers(ADMIN).hasAnyRole("ADMIN")
                 .anyRequest().authenticated();
 
         security.apply(new JwtSecurityConfig(tokenProvider));
