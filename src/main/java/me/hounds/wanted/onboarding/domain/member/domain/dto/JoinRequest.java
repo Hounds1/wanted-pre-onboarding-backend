@@ -26,8 +26,4 @@ public class JoinRequest {
                 .password(password)
                 .build();
     }
-
-    public String getPasswordErrorMessage() {
-        return "비밀번호는 8자 이상이어야 합니다.";
-    }
 }
