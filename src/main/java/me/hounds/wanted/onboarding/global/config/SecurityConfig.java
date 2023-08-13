@@ -1,7 +1,6 @@
 package me.hounds.wanted.onboarding.global.config;
 
 import lombok.RequiredArgsConstructor;
-import me.hounds.wanted.onboarding.global.jwt.JwtFilter;
 import me.hounds.wanted.onboarding.global.jwt.TokenProvider;
 import me.hounds.wanted.onboarding.global.jwt.handler.JwtAccessDeniedHandler;
 import me.hounds.wanted.onboarding.global.jwt.handler.JwtAuthenticationEntryPoint;
@@ -69,13 +68,16 @@ public class SecurityConfig {
 
         security.authenticationProvider(new CustomAuthenticationProvider());
 
+        security.sessionManagement()
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         security.headers()
                 .frameOptions().sameOrigin();
 
         security.authorizeHttpRequests()
                 .antMatchers(PUBLIC).permitAll()
-                .antMatchers(NORMAL).hasAnyRole("USER", "ADMIN")
                 .antMatchers(ADMIN).hasAnyRole("ADMIN")
+                .antMatchers(NORMAL).hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
         security.apply(new JwtSecurityConfig(tokenProvider));

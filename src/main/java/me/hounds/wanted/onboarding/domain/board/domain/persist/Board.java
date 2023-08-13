@@ -1,5 +1,6 @@
 package me.hounds.wanted.onboarding.domain.board.domain.persist;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import me.hounds.wanted.onboarding.domain.board.domain.dto.UpdateBoardRequest;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
@@ -27,7 +28,8 @@ public class Board extends BaseEntity {
 
     private String boardName;
 
-    @OneToMany(mappedBy = "board")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<Content> contents;
 
     private boolean activated;
@@ -47,6 +49,7 @@ public class Board extends BaseEntity {
 
     public void addContent(final Content content) {
         this.contents.add(content);
+        content.initBoard(this);
     }
 
     public void removeContent(final Content content) {

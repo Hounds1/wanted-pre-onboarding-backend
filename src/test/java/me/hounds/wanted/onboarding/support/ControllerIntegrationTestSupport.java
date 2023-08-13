@@ -3,7 +3,10 @@ package me.hounds.wanted.onboarding.support;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.hounds.wanted.onboarding.domain.auth.service.AuthService;
 import me.hounds.wanted.onboarding.domain.board.service.BoardService;
+import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
+import me.hounds.wanted.onboarding.domain.content.service.ContentService;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +27,12 @@ public abstract class ControllerIntegrationTestSupport {
 
     @MockBean
     protected BoardService boardService;
+
+    @MockBean
+    protected ContentService contentService;
+
+    @MockBean
+    protected ContentReadService contentReadService;
 
     @Autowired
     protected MockMvc mockMvc;

@@ -1,7 +1,9 @@
 package me.hounds.wanted.onboarding.domain.content.domain.persist;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import me.hounds.wanted.onboarding.domain.board.domain.persist.Board;
+import me.hounds.wanted.onboarding.domain.content.domain.dto.UpdateContentRequest;
 import me.hounds.wanted.onboarding.global.common.BaseEntity;
 import me.hounds.wanted.onboarding.global.jwt.vo.AccessToken;
 import org.hibernate.annotations.DynamicInsert;
@@ -29,6 +31,7 @@ public class Content extends BaseEntity {
 
     private String detail;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
@@ -37,6 +40,16 @@ public class Content extends BaseEntity {
 
     public void initBoard(final Board board) {
         this.board = board;
+    }
+
+    public void update(final UpdateContentRequest request) {
+        this.title = request.getTitle();
+        this.detail = request.getDetail();
+    }
+
+    public void deactivated() {
+        this.activated = false;
+        recordDeleteTime();
     }
 
     @Override
