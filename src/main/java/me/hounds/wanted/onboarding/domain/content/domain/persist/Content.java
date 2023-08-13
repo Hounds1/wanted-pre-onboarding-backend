@@ -1,5 +1,6 @@
 package me.hounds.wanted.onboarding.domain.content.domain.persist;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import me.hounds.wanted.onboarding.domain.board.domain.persist.Board;
 import me.hounds.wanted.onboarding.domain.content.domain.dto.UpdateContentRequest;
@@ -30,6 +31,7 @@ public class Content extends BaseEntity {
 
     private String detail;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;

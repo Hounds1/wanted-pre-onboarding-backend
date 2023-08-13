@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CustomPageResponse<T> {
 
-    private List<T> date = new ArrayList<>();
+    private List<T> data = new ArrayList<>();
     private long totalPage;
     private int pageSize;
     private long totalElements;

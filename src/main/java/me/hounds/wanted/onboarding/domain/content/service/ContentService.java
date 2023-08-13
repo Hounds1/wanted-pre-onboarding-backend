@@ -1,6 +1,7 @@
 package me.hounds.wanted.onboarding.domain.content.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.hounds.wanted.onboarding.domain.board.domain.persist.Board;
 import me.hounds.wanted.onboarding.domain.board.domain.persist.BoardRepository;
 import me.hounds.wanted.onboarding.domain.board.error.BoardNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class ContentService {
 
     private final BoardRepository boardRepository;
@@ -59,6 +61,8 @@ public class ContentService {
 
 
     private void isCreatedBy(final String email, final String createdBy) {
+        log.info("Input data is [{}, {}]", email, createdBy);
+
         if (!email.equals(createdBy))
             throw new MetaDataMismatchException(ErrorCode.INFO_MISMATCH);
         else if (email.equals("admin@admin.admin"))

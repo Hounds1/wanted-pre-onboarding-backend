@@ -1,6 +1,7 @@
 package me.hounds.wanted.onboarding.global.common;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
@@ -17,4 +18,8 @@ public class BaseEntity extends BaseTimeEntity{
 
     @LastModifiedBy
     private String lastModifiedBy;
+
+    public void setCreateByForTest(final String email) {
+        this.createBy = email;
+    }
 }
