@@ -5,8 +5,11 @@ import me.hounds.wanted.onboarding.domain.board.domain.persist.Board;
 import me.hounds.wanted.onboarding.domain.board.domain.persist.BoardRepository;
 import me.hounds.wanted.onboarding.domain.board.error.BoardNotFoundException;
 import me.hounds.wanted.onboarding.domain.content.domain.dto.SimpleContentResponse;
+import me.hounds.wanted.onboarding.domain.content.domain.dto.UpdateContentRequest;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentRepository;
+import me.hounds.wanted.onboarding.domain.content.error.ContentNotFoundException;
+import me.hounds.wanted.onboarding.global.common.error.MetaDataMismatchException;
 import me.hounds.wanted.onboarding.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,5 +32,36 @@ public class ContentService {
         findBoard.addContent(savedContent);
 
         return SimpleContentResponse.of(savedContent);
+    }
+
+    public SimpleContentResponse update(final UpdateContentRequest request, final Long contentId, final String email) {
+        Content findContent = contentRepository.findById(contentId)
+                .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
+
+        isCreatedBy(email, findContent.getCreateBy());
+
+        findContent.update(request);
+
+        return SimpleContentResponse.of(findContent);
+    }
+
+    /**
+     * 논리적 삭제
+     */
+    public void delete(final Long contentId, final String email) {
+        Content findContent = contentRepository.findById(contentId)
+                .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
+
+        isCreatedBy(email, findContent.getCreateBy());
+
+        findContent.deactivated();
+    }
+
+
+    private void isCreatedBy(final String email, final String createdBy) {
+        if (!email.equals(createdBy))
+            throw new MetaDataMismatchException(ErrorCode.INFO_MISMATCH);
+        else if (email.equals("admin@admin.admin"))
+            return;
     }
 }

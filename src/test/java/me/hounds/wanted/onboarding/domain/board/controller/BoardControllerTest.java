@@ -40,7 +40,7 @@ class BoardControllerTest extends ControllerIntegrationTestSupport {
     }
 
     @Test
-    @DisplayName("운영자가 아닌 경우 요청을 거부한다.")
+    @DisplayName("운영자가 아닌 경우 생성 요청을 거부한다.")
     @WithUser
     void createDenied() throws Exception {
         CreateBoardRequest request = new CreateBoardRequest(GivenBoard.GIVEN_BOARD_NAME);

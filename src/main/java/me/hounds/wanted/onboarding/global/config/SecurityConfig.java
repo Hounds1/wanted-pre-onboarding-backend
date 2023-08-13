@@ -74,8 +74,8 @@ public class SecurityConfig {
 
         security.authorizeHttpRequests()
                 .antMatchers(PUBLIC).permitAll()
-                .antMatchers(NORMAL).hasAnyRole("USER", "ADMIN")
                 .antMatchers(ADMIN).hasAnyRole("ADMIN")
+                .antMatchers(NORMAL).hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
         security.apply(new JwtSecurityConfig(tokenProvider));
