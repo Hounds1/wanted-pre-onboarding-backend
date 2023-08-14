@@ -41,7 +41,7 @@ public class ContentController {
                 .body(contentService.update(request, contentId, details.getUsername()));
     }
 
-    @DeleteMapping("/{contentId}/contents")
+    @DeleteMapping("/contents/{contentId}")
     public ResponseEntity<Void> delete(@PathVariable Long contentId, @AuthenticationPrincipal CustomUserDetails details) {
         contentService.delete(contentId, details.getUsername());
 

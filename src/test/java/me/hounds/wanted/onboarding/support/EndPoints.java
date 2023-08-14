@@ -17,14 +17,15 @@ public enum EndPoints {
      * Board
      */
     ADMIN_BOARD("/api/v1/admin/boards"),
-    ADMIN_BOARD_WITH_COUNT("/api/v1/admin/boards/1"),
+    ADMIN_BOARD_WITH_COUNT("/api/v1/admin/boards/{boardId}"),
 
     /**
      * Content
      */
-    USER_CONTENT("/api/v1/1/contents"),
-    PUBLIC_CONTENT_PAGING("/api/v1/public/1/contents"),
-    PUBLIC_CONTENT_ID("/api/v1//public/contents?contentId=1");
+    USER_CONTENT("/api/v1/{boardId}/contents"),
+    USER_CONTENT_DELETE("/api/v1/contents/{contentId}"),
+    PUBLIC_CONTENT_PAGING("/api/v1/public/{boardId}/contents"),
+    PUBLIC_CONTENT_ID("/api/v1//public/contents");
 
 
     private final String url;

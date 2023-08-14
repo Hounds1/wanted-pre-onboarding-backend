@@ -49,7 +49,9 @@ class ContentReadServiceTest extends IntegrationReadTestSupport {
     @Test
     @DisplayName("게시물의 ID로 해당 게시물을 조회한다.")
     void findById()  {
-        SimpleContentResponse response = contentReadService.findById(1L);
+        Long id = board.getContents().get(0).getId();
+        SimpleContentResponse response = contentReadService.findById(id);
+
 
         assertThat(response.getTitle()).isEqualTo(GivenContent.GIVEN_TITLE);
         assertThat(response.getDetail()).isEqualTo(GivenContent.GIVEN_DETAIL);
