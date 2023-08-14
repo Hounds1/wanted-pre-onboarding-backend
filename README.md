@@ -42,8 +42,7 @@ wanted-pre-onboarding-backend 요구 사항에 맞춰 구현한 게시판 예제
 
 # 부가적으로 생성된 기능
 1. Global Error 생성 및 Advice
-2. IntegrationTestSupport 테스트 환경 의존성 통합
-3. JpaAuditor 활성화
-4. IntegrationTestSupporters 생성 및 테스트 의존성 통합
-5. 게시판 엔드포인트 생성(관리자가 아닐 경우 거부) (테스트 완료)
-6. Spring Rest Docs 적용 (현행 테스트 문서화 완료)
+2. JpaAuditor 활성화
+3. IntegrationTestSupporters 생성 및 테스트 의존성 통합
+4. 게시판 엔드포인트 생성(관리자가 아닐 경우 거부) (테스트 완료)
+5. Spring Rest Docs 적용 (현행 테스트 문서화 완료)
