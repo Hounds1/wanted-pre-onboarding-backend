@@ -15,3 +15,4 @@ wanted-pre-onboarding-backend 요구 사항에 맞춰 구현한 게시판 예제
 3. JpaAuditor 활성화
 4. IntegrationTestSupporters 생성 및 테스트 의존성 통합
 5. 게시판 엔드포인트 생성(관리자가 아닐 경우 거부) (테스트 완료)
+6. Spring Rest Docs 적용 (현행 테스트 문서화 완료)
