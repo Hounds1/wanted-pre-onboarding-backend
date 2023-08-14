@@ -12,12 +12,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.PayloadDocumentation;
+import org.springframework.restdocs.request.RequestDocumentation;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,10 +40,26 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
 
-        mockMvc.perform(post(EndPoints.USER_CONTENT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(), 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isCreated())
+                .andDo(document("content-create" ,
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용"),
+                                fieldWithPath("createdTime").description("생성 시간"),
+                                fieldWithPath("createdBy").description("게시자"),
+                                fieldWithPath("lastModifiedTime").description("최종 수정 시간"),
+                                fieldWithPath("lastModifiedBy").description("최종 수정자")
+                        )))
                 .andDo(print());
     }
 
@@ -50,10 +72,23 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
 
-        mockMvc.perform(post(EndPoints.USER_CONTENT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isUnauthorized())
+                .andDo(document("content-create-denied" ,
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 
@@ -67,10 +102,23 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
 
-        mockMvc.perform(post(EndPoints.USER_CONTENT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(),1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest())
+                .andDo(document("content-create-denied-title-blank" ,
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 
@@ -84,10 +132,23 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
 
-        mockMvc.perform(post(EndPoints.USER_CONTENT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest())
+                .andDo(document("content-create-denied-detail-blank" ,
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 
@@ -102,10 +163,26 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
 
-        mockMvc.perform(put(EndPoints.USER_CONTENT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isOk())
+                .andDo(document("content-update" ,
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용"),
+                                fieldWithPath("createdTime").description("생성 시간"),
+                                fieldWithPath("createdBy").description("게시자"),
+                                fieldWithPath("lastModifiedTime").description("최종 수정 시간"),
+                                fieldWithPath("lastModifiedBy").description("최종 수정자")
+                        )))
                 .andDo(print());
     }
 
@@ -119,10 +196,23 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
 
-        mockMvc.perform(put(EndPoints.USER_CONTENT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isUnauthorized())
+                .andDo(document("content-update-denied" ,
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 
@@ -137,10 +227,23 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
 
-        mockMvc.perform(put(EndPoints.USER_CONTENT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest())
+                .andDo(document("content-update-denied-title-blank" ,
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 
@@ -155,10 +258,23 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
 
-        mockMvc.perform(put(EndPoints.USER_CONTENT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isBadRequest())
+                .andDo(document("content-update-denied-detail-blank" ,
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 
@@ -168,8 +284,12 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
     void deleteContent() throws Exception {
         doNothing().when(contentService).delete(any(), any());
 
-        mockMvc.perform(delete(EndPoints.USER_CONTENT.getUrl()))
+        mockMvc.perform(RestDocumentationRequestBuilders.delete(EndPoints.USER_CONTENT_DELETE.getUrl(), 1L))
                 .andExpect(status().isNoContent())
+                .andDo(document("content-delete",
+                        pathParameters(
+                                parameterWithName("contentId").description("게시물 ID")
+                        )))
                 .andDo(print());
     }
 
@@ -178,8 +298,17 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
     void deleteDenied() throws Exception {
         doNothing().when(contentService).delete(any(), any());
 
-        mockMvc.perform(delete(EndPoints.USER_CONTENT.getUrl()))
+        mockMvc.perform(RestDocumentationRequestBuilders.delete(EndPoints.USER_CONTENT_DELETE.getUrl(), 1L))
                 .andExpect(status().isUnauthorized())
+                .andDo(document("content-delete-denied",
+                        pathParameters(
+                                parameterWithName("contentId").description("게시물 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 
@@ -191,8 +320,24 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentReadService.findWithPaging(any(), any())).thenReturn(paging);
 
-        mockMvc.perform(get(EndPoints.PUBLIC_CONTENT_PAGING.getUrl()))
+        mockMvc.perform(RestDocumentationRequestBuilders.get(EndPoints.PUBLIC_CONTENT_PAGING.getUrl(), 1L)
+                        .param("page", "0"))
                 .andExpect(status().isOk())
+                .andDo(document("content-search-paging",
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("요청 페이지")
+                        ),
+                        responseFields(
+                                fieldWithPath("data").description("결과"),
+                                fieldWithPath("totalPage").description("전체 페이지 수"),
+                                fieldWithPath("pageSize").description("페이지당 컨텐츠 수"),
+                                fieldWithPath("totalElements").description("총 컨텐츠 수"),
+                                fieldWithPath("number").description("현재 페이지")
+                        )
+                ))
                 .andDo(print());
     }
 
@@ -204,8 +349,21 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentReadService.findById(any())).thenReturn(response);
 
-        mockMvc.perform(get(EndPoints.PUBLIC_CONTENT_ID.getUrl()))
+        mockMvc.perform(RestDocumentationRequestBuilders.get(EndPoints.PUBLIC_CONTENT_ID.getUrl())
+                        .param("contentId", "1"))
                 .andExpect(status().isOk())
+                .andDo(document("content-search-id",
+                        requestParameters(
+                                parameterWithName("contentId").description("컨텐츠 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("detail").description("내용"),
+                                fieldWithPath("createdTime").description("생성 시간"),
+                                fieldWithPath("createdBy").description("게시자"),
+                                fieldWithPath("lastModifiedTime").description("최종 수정 시간"),
+                                fieldWithPath("lastModifiedBy").description("최종 수정자")
+                        )))
                 .andDo(print());
     }
 }

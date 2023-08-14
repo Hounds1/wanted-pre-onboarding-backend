@@ -1,0 +1,176 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+[[resources]]
+= Wanted pre onboarding backend
+
+[[resources-content]]
+= Content
+
+[[resources-content-create]]
+== 게시물 작성
+
+=== 요청
+
+include::{snippets}/content-create/path-parameters.adoc[]
+include::{snippets}/content-create/http-request.adoc[]
+include::{snippets}/content-create/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/content-create/http-response.adoc[]
+include::{snippets}/content-create/response-fields.adoc[]
+
+[[resources-content-create-denied]]
+== 게시물 작성 거부
+
+=== 요청
+
+include::{snippets}/content-create-denied/path-parameters.adoc[]
+include::{snippets}/content-create-denied/http-request.adoc[]
+include::{snippets}/content-create-denied/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/content-create-denied/http-response.adoc[]
+include::{snippets}/content-create-denied/response-fields.adoc[]
+
+[[resources-content-create-denied-titel-blank]]
+== 게시물 작성 실패(제목 없음)
+
+=== 요청
+
+include::{snippets}/content-create-denied-title-blank/path-parameters.adoc[]
+include::{snippets}/content-create-denied-title-blank/http-request.adoc[]
+include::{snippets}/content-create-denied-title-blank/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/content-create-denied-title-blank/http-response.adoc[]
+include::{snippets}/content-create-denied-title-blank/response-fields.adoc[]
+
+[[resources-content-create-denied-detail-blank]]
+== 게시물 작성 실패(내용 없음)
+
+=== 요청
+
+include::{snippets}/content-create-denied-detail-blank/path-parameters.adoc[]
+include::{snippets}/content-create-denied-detail-blank/http-request.adoc[]
+include::{snippets}/content-create-denied-detail-blank/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/content-create-denied-detail-blank/http-response.adoc[]
+include::{snippets}/content-create-denied-detail-blank/response-fields.adoc[]
+
+[[resources-content-update]]
+== 게시물 업데이트
+
+=== 요청
+
+include::{snippets}/content-update/path-parameters.adoc[]
+include::{snippets}/content-update/http-request.adoc[]
+include::{snippets}/content-update/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/content-update/http-response.adoc[]
+include::{snippets}/content-update/response-fields.adoc[]
+
+[[resources-content-update-denide]]
+== 게시물 업데이트 거부
+
+=== 요청
+
+include::{snippets}/content-update-denied/path-parameters.adoc[]
+include::{snippets}/content-update-denied/http-request.adoc[]
+include::{snippets}/content-update-denied/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/content-update-denied/http-response.adoc[]
+include::{snippets}/content-update-denied/response-fields.adoc[]
+
+[[resources-content-update-denide-title-blank]]
+== 게시물 업데이트 실패(제목 없음)
+
+=== 요청
+
+include::{snippets}/content-update-denied-title-blank/path-parameters.adoc[]
+include::{snippets}/content-update-denied-title-blank/http-request.adoc[]
+include::{snippets}/content-update-denied-title-blank/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/content-update-denied-title-blank/http-response.adoc[]
+include::{snippets}/content-update-denied-title-blank/response-fields.adoc[]
+
+[[resources-content-update-denide-detail-blank]]
+== 게시물 업데이트 실패(내용 없음)
+
+=== 요청
+
+include::{snippets}/content-update-denied-detail-blank/path-parameters.adoc[]
+include::{snippets}/content-update-denied-detail-blank/http-request.adoc[]
+include::{snippets}/content-update-denied-detail-blank/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/content-update-denied-detail-blank/http-response.adoc[]
+include::{snippets}/content-update-denied-detail-blank/response-fields.adoc[]
+
+[[resources-content-delete]]
+== 게시물 삭제
+
+=== 요청
+
+include::{snippets}/content-delete/path-parameters.adoc[]
+include::{snippets}/content-delete/http-request.adoc[]
+
+=== 응답
+
+include::{snippets}/content-delete/http-response.adoc[]
+
+[[resources-content-delete-denied]]
+== 게시물 삭제 거부
+
+=== 요청
+
+include::{snippets}/content-delete-denied/path-parameters.adoc[]
+include::{snippets}/content-delete-denied/http-request.adoc[]
+
+=== 응답
+
+include::{snippets}/content-delete-denied/http-response.adoc[]
+include::{snippets}/content-delete-denied/response-fields.adoc[]
+
+[[resources-content-search-paging]]
+== 게시물 검색(페이징)
+
+=== 요청
+
+include::{snippets}/content-search-paging/path-parameters.adoc[]
+include::{snippets}/content-search-paging/http-request.adoc[]
+
+=== 응답
+
+include::{snippets}/content-search-paging/http-response.adoc[]
+include::{snippets}/content-search-paging/response-fields.adoc[]
+
+
+[[resources-content-search-id]]
+== 게시물 검색(아이디)
+
+=== 요청
+include::{snippets}/content-search-id/http-request.adoc[]
+
+=== 응답
+
+include::{snippets}/content-search-id/http-response.adoc[]
+include::{snippets}/content-search-id/response-fields.adoc[]

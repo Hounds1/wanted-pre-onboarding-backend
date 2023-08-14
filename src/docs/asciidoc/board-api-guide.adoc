@@ -1,0 +1,94 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+[[resources]]
+= Wanted pre onboarding backend
+
+[[resources-board]]
+= Board
+
+[[resources-board-create]]
+== 게시판 생성
+
+=== 요청
+
+include::{snippets}/board-create/http-request.adoc[]
+include::{snippets}/board-create/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/board-create/http-response.adoc[]
+include::{snippets}/board-create/response-fields.adoc[]
+
+[[resources-board-create-fail]]
+== 게시판 생성 실패
+
+=== 요청
+
+include::{snippets}/board-create-denied/http-request.adoc[]
+include::{snippets}/board-create-denied/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/board-create-denied/http-response.adoc[]
+include::{snippets}/board-create-denied/response-fields.adoc[]
+
+[[resources-board-update]]
+== 게시판 업데이트
+
+=== 요청
+
+include::{snippets}/board-update/http-request.adoc[]
+include::{snippets}/board-update/path-parameters.adoc[]
+include::{snippets}/board-update/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/board-update/http-response.adoc[]
+include::{snippets}/board-update/response-fields.adoc[]
+
+[[resources-board-update-fail]]
+== 게시판 업데이트 실패
+
+=== 요청
+
+include::{snippets}/board-update-denied/http-request.adoc[]
+include::{snippets}/board-update-denied/path-parameters.adoc[]
+include::{snippets}/board-update-denied/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/board-update-denied/http-response.adoc[]
+include::{snippets}/board-update-denied/response-fields.adoc[]
+
+[[resources-board-delete]]
+== 게시판 삭제
+
+=== 요청
+
+include::{snippets}/board-delete/http-request.adoc[]
+include::{snippets}/board-delete/path-parameters.adoc[]
+
+=== 응답
+
+include::{snippets}/board-delete/http-response.adoc[]
+include::{snippets}/board-delete/response-fields.adoc[]
+
+[[resources-board-delete-fail]]
+== 게시판 삭제 실패
+
+=== 요청
+
+include::{snippets}/board-delete-denied/http-request.adoc[]
+include::{snippets}/board-delete-denied/path-parameters.adoc[]
+
+=== 응답
+
+include::{snippets}/board-delete-denied/http-response.adoc[]
+include::{snippets}/board-delete-denied/response-fields.adoc[]

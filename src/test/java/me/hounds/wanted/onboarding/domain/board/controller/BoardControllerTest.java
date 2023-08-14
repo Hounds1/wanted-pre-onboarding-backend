@@ -10,12 +10,18 @@ import me.hounds.wanted.onboarding.support.board.GivenBoard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.PayloadDocumentation;
+import org.springframework.restdocs.request.RequestDocumentation;
 
 import static me.hounds.wanted.onboarding.support.EndPoints.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,6 +42,13 @@ class BoardControllerTest extends ControllerIntegrationTestSupport {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isCreated())
+                .andDo(document("board-create",
+                        requestFields(
+                                fieldWithPath("boardName").description("게시판 이름")
+                        ),
+                        responseFields(
+                                fieldWithPath("boardName").description("게시판 이름")
+                        )))
                 .andDo(print());
     }
 
@@ -52,6 +65,15 @@ class BoardControllerTest extends ControllerIntegrationTestSupport {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isForbidden())
+                .andDo(document("board-create-denied",
+                        requestFields(
+                                fieldWithPath("boardName").description("게시판 이름")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 
@@ -64,10 +86,20 @@ class BoardControllerTest extends ControllerIntegrationTestSupport {
 
         when(boardService.update(any(), any())).thenReturn(SimpleBoardResponse.of(GivenBoard.givenBoard()));
 
-        mockMvc.perform(patch(ADMIN_BOARD_WITH_COUNT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.patch(ADMIN_BOARD_WITH_COUNT.getUrl(), 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isOk())
+                .andDo(document("board-update",
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("boardName").description("게시판 이름")
+                        ),
+                        responseFields(
+                                fieldWithPath("boardName").description("게시판 이름")
+                        )))
                 .andDo(print());
     }
 
@@ -80,10 +112,22 @@ class BoardControllerTest extends ControllerIntegrationTestSupport {
 
         when(boardService.update(any(), any())).thenReturn(SimpleBoardResponse.of(GivenBoard.givenBoard()));
 
-        mockMvc.perform(patch(ADMIN_BOARD_WITH_COUNT.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.patch(ADMIN_BOARD_WITH_COUNT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isForbidden())
+                .andDo(document("board-update-denied",
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("boardName").description("게시판 이름")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 
@@ -93,8 +137,12 @@ class BoardControllerTest extends ControllerIntegrationTestSupport {
     void deleteBoard() throws Exception{
         doNothing().when(boardService).delete(any());
 
-        mockMvc.perform(delete(ADMIN_BOARD_WITH_COUNT.getUrl()))
+        mockMvc.perform(RestDocumentationRequestBuilders.delete(ADMIN_BOARD_WITH_COUNT.getUrl(), 1L))
                 .andExpect(status().isNoContent())
+                .andDo(document("board-delete",
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        )))
                 .andDo(print());
     }
 
@@ -104,8 +152,17 @@ class BoardControllerTest extends ControllerIntegrationTestSupport {
     void deleteDenied() throws Exception{
         doNothing().when(boardService).delete(any());
 
-        mockMvc.perform(delete(ADMIN_BOARD_WITH_COUNT.getUrl()))
+        mockMvc.perform(RestDocumentationRequestBuilders.delete(ADMIN_BOARD_WITH_COUNT.getUrl(), 1L))
                 .andExpect(status().isForbidden())
+                .andDo(document("board-delete-denied",
+                        pathParameters(
+                                parameterWithName("boardId").description("게시판 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
                 .andDo(print());
     }
 }

@@ -29,6 +29,7 @@ public class SecurityConfig {
     private static final String PUBLIC = "/api/v1/public/**";
     private static final String ADMIN = "/api/v1/admin/**";
     private static final String NORMAL = "/api/v1/**";
+    private static final String API_DOCS = "/docs/**";
     private final JwtAccessDeniedHandler accessDeniedHandler;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final TokenProvider tokenProvider;
@@ -76,6 +77,7 @@ public class SecurityConfig {
 
         security.authorizeHttpRequests()
                 .antMatchers(PUBLIC).permitAll()
+                .antMatchers(API_DOCS).permitAll()
                 .antMatchers(ADMIN).hasAnyRole("ADMIN")
                 .antMatchers(NORMAL).hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();

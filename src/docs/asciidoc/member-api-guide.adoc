@@ -1,0 +1,53 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+[[resources]]
+= Wanted pre onboarding backend
+
+[[resources-member]]
+= Member
+
+[[resources-member-join]]
+== 회원 가입
+
+=== 요청
+
+include::{snippets}/member-join/http-request.adoc[]
+include::{snippets}/member-join/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/member-join/http-response.adoc[]
+include::{snippets}/member-join/response-fields.adoc[]
+
+[[resources-member-join-fail-email]]
+== 이메일 형식 검증
+
+=== 요청
+
+include::{snippets}/member-join-denied-email-form/http-request.adoc[]
+include::{snippets}/member-join-denied-email-form/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/member-join-denied-email-form/http-response.adoc[]
+include::{snippets}/member-join-denied-email-form/response-fields.adoc[]
+
+[[resources-member-join-fail-password]]
+== 비밀번호 길이 검증
+
+=== 요청
+
+include::{snippets}/member-join-denied-password-length/http-request.adoc[]
+include::{snippets}/member-join-denied-password-length/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/member-join-denied-password-length/http-response.adoc[]
+include::{snippets}/member-join-denied-password-length/response-fields.adoc[]

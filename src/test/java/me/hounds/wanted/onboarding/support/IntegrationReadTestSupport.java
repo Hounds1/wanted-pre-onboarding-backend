@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional(readOnly = true)
-public class IntegrationReadTestSupport {
+public abstract class IntegrationReadTestSupport {
 
     @Autowired
     protected ContentReadService contentReadService;
