@@ -4,3 +4,13 @@ spring:
     url: jdbc:mariadb://localhost:3306/onboarding_test
     username: onboardTest
     password: 1234
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MariaDB103Dialect
