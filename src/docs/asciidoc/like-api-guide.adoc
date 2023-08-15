@@ -10,10 +10,10 @@
 [[resources]]
 = Wanted pre onboarding backend
 
-[[resources-auth]]
+[[resources-like]]
 = Like
 
-[[resources-auth-login]]
+[[resources-like-and-dislike]]
 == 좋아요
 
 === 요청

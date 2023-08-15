@@ -7,6 +7,7 @@ import me.hounds.wanted.onboarding.domain.content.domain.dto.SimpleContentRespon
 import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentRepository;
 import me.hounds.wanted.onboarding.domain.content.error.ContentNotFoundException;
+import me.hounds.wanted.onboarding.domain.like.domain.persist.LikeRepository;
 import me.hounds.wanted.onboarding.global.common.CustomPageResponse;
 import me.hounds.wanted.onboarding.global.exception.ErrorCode;
 import org.springframework.data.domain.Page;
@@ -20,13 +21,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class ContentReadService {
 
     private final ContentRepository contentRepository;
+    private final LikeRepository likeRepository;
     private final ObjectMapper mapper;
 
     public CustomPageResponse<SimpleContentResponse> findWithPaging(final Long boardId, final Pageable pageable) {
         Page<Content> findContents = contentRepository.findAllByBoardId(pageable, boardId);
 
+//        Page<SimpleContentResponse> mappedResponse
+//                = findContents.map(content -> mapper.convertValue(content, SimpleContentResponse.class));
+
         Page<SimpleContentResponse> mappedResponse
-                = findContents.map(content -> mapper.convertValue(content, SimpleContentResponse.class));
+                = findContents.map(content -> {
+            long count = likeRepository.countByContentId(content.getId());
+            return SimpleContentResponse.of(content, count);
+        });
+
 
         return CustomPageResponse.of(mappedResponse);
     }
@@ -35,6 +44,8 @@ public class ContentReadService {
         Content findContent = contentRepository.findById(contentId)
                 .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
 
-        return SimpleContentResponse.of(findContent);
+        long count = likeRepository.countByContentId(contentId);
+
+        return SimpleContentResponse.of(findContent, count);
     }
 }

@@ -22,4 +22,5 @@ public class LikeController {
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
     }
+
 }

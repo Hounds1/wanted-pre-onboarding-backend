@@ -23,8 +23,10 @@ public class SimpleContentResponse {
     private LocalDateTime lastModifiedTime;
 
     private String lastModifiedBy;
-    public static SimpleContentResponse of(final Content content) {
+
+    private long likeCount;
+    public static SimpleContentResponse of(final Content content, final long likeCount) {
         return new SimpleContentResponse(content.getTitle(), content.getDetail(), content.getCreateTime(),
-                content.getCreateBy(), content.getLastModifiedDate(), content.getLastModifiedBy());
+                content.getCreateBy(), content.getLastModifiedDate(), content.getLastModifiedBy(), likeCount);
     }
 }

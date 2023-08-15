@@ -38,7 +38,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                 = new CreateContentRequest(GivenContent.GIVEN_TITLE, GivenContent.GIVEN_DETAIL);
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(), 1L)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -70,7 +70,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                 = new CreateContentRequest(GivenContent.GIVEN_TITLE, GivenContent.GIVEN_DETAIL);
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -100,7 +100,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                 = new CreateContentRequest("", GivenContent.GIVEN_DETAIL);
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(),1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -130,7 +130,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                 = new CreateContentRequest(GivenContent.GIVEN_TITLE, "");
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -161,7 +161,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -194,7 +194,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -225,7 +225,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -256,7 +256,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -345,7 +345,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
     @DisplayName("작성된 컨텐츠를 ID로 선택하여 불러온다.")
     void findById() throws Exception {
         SimpleContentResponse response
-                = SimpleContentResponse.of(GivenContent.givenContentWithCount());
+                = SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L);
 
         when(contentReadService.findById(any())).thenReturn(response);
 

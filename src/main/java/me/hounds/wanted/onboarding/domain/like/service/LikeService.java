@@ -8,6 +8,7 @@ import me.hounds.wanted.onboarding.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,5 +34,9 @@ public class LikeService {
             e.printStackTrace();
             throw new LikeHasProblemException(ErrorCode.LIKE_HAS_PROBLEM);
         }
+    }
+
+    public void deactivatedWithContent(final Long contentId) {
+       likeRepository.deactivatedLikesByContentId(contentId);
     }
 }
