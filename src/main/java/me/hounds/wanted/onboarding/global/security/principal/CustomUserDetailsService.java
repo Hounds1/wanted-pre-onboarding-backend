@@ -3,7 +3,7 @@ package me.hounds.wanted.onboarding.global.security.principal;
 import lombok.RequiredArgsConstructor;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.Member;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.MemberRepository;
-import me.hounds.wanted.onboarding.domain.member.exception.MemberNotFoundException;
+import me.hounds.wanted.onboarding.domain.member.error.MemberNotFoundException;
 import me.hounds.wanted.onboarding.global.exception.ErrorCode;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

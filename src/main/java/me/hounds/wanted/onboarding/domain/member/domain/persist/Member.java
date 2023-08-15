@@ -1,6 +1,7 @@
 package me.hounds.wanted.onboarding.domain.member.domain.persist;
 
 import lombok.*;
+import me.hounds.wanted.onboarding.domain.member.domain.dto.UpdateMemberRequest;
 import me.hounds.wanted.onboarding.domain.member.domain.vo.RoleType;
 import me.hounds.wanted.onboarding.global.common.BaseTimeEntity;
 import org.hibernate.annotations.DynamicInsert;
@@ -43,10 +44,15 @@ public class Member extends BaseTimeEntity {
 
     public void deactivated() {
         this.activated = false;
+        recordDeleteTime();
     }
 
     public void changeRole(final RoleType role) {
         this.role = role;
+    }
+
+    public void updateInfo(final UpdateMemberRequest request) {
+        this.password = request.getPassword();
     }
 
     /**

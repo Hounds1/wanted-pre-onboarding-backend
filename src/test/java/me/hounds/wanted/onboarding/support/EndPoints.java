@@ -7,6 +7,9 @@ public enum EndPoints {
      * Member
      */
     PUBLIC_MEMBER("/api/v1/public/members"),
+    MEMBER_WITH_AUTH("/api/v1/members"),
+    PUBLIC_MEMBER_FIND("/api/v1/public/members/{memberId}"),
+    MEMBER_WHO_AM_I("/api/v1/members/me"),
 
     /**
      * Auth

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.hounds.wanted.onboarding.domain.auth.domain.dto.LoginRequest;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.Member;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.MemberRepository;
-import me.hounds.wanted.onboarding.domain.member.exception.MemberNotFoundException;
+import me.hounds.wanted.onboarding.domain.member.error.MemberNotFoundException;
 import me.hounds.wanted.onboarding.global.exception.ErrorCode;
 import me.hounds.wanted.onboarding.global.jwt.TokenProvider;
 import me.hounds.wanted.onboarding.global.jwt.dto.TokenDTO;
