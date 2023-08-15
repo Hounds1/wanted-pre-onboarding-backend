@@ -25,3 +25,27 @@ include::{snippets}/auth-login/request-fields.adoc[]
 
 include::{snippets}/auth-login/http-response.adoc[]
 include::{snippets}/auth-login/response-fields.adoc[]
+
+[[resources-auth-logout]]
+== 로그아웃
+
+=== 요청
+
+include::{snippets}/auth-logout/http-request.adoc[]
+=== 응답
+
+include::{snippets}/auth-logout/http-response.adoc[]
+
+[[resources-auth-reissue]]
+== 재인증
+
+=== 요청
+
+include::{snippets}/auth-reissue/http-request.adoc[]
+include::{snippets}/auth-reissue/request-fields.adoc[]
+! 재인증에는 쿠키에 담긴 RefreshToken이 필수입니다.
+
+=== 응답
+
+include::{snippets}/auth-reissue/http-response.adoc[]
+include::{snippets}/auth-reissue/response-fields.adoc[]

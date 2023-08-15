@@ -6,13 +6,18 @@ import me.hounds.wanted.onboarding.global.jwt.vo.AccessToken;
 import me.hounds.wanted.onboarding.global.jwt.vo.RefreshToken;
 import me.hounds.wanted.onboarding.support.ControllerIntegrationTestSupport;
 import me.hounds.wanted.onboarding.support.EndPoints;
+import me.hounds.wanted.onboarding.support.annotations.withUser.WithUser;
 import me.hounds.wanted.onboarding.support.member.GivenMember;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.PayloadDocumentation;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import javax.servlet.http.Cookie;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,6 +26,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AuthControllerTest extends ControllerIntegrationTestSupport {
@@ -36,7 +42,7 @@ class AuthControllerTest extends ControllerIntegrationTestSupport {
 
         when(authService.login(any())).thenReturn(TokenDTO.of(accessToken, refreshToken));
 
-        mockMvc.perform(post(EndPoints.PUBLIC_AUTH.getUrl())
+        mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.PUBLIC_AUTH.getUrl())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isOk())
@@ -49,5 +55,51 @@ class AuthControllerTest extends ControllerIntegrationTestSupport {
                                 fieldWithPath("accessToken").description("엑세스 토큰")
                         )))
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("로그아웃 시 RefreshToken을 소멸시킨다.")
+    @WithUser
+    void logout() throws Exception {
+        UsernamePasswordAuthenticationToken token = getToken();
+
+        TokenDTO tokens = tokenProvider.generateToken("user@user.user", token);
+
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/api/v1/auth")
+                        .cookie(new Cookie("refreshToken", tokens.getRefreshToken().getRefreshToken())))
+                .andExpect(status().isNoContent())
+                .andExpect(cookie().value("refreshToken", (String) null))
+                .andDo(document("auth-logout"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("RefreshToken을 사용해 AccessToken을 재발급 할 수 있다.")
+    void reissue() throws Exception {
+        UsernamePasswordAuthenticationToken token = getToken();
+
+        TokenDTO tokens = tokenProvider.generateToken("user@user.user", token);
+        String requestJSON = objectMapper.writeValueAsString(tokens.getAccessToken());
+
+        when(authService.reissue(any(), any())).thenReturn(AccessToken.from(tokens.getAccessToken().getAccessToken()));
+
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/v1/public/auth/reissue")
+                        .cookie(new Cookie("refreshToken", tokens.getRefreshToken().getRefreshToken()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJSON))
+                .andExpect(status().isOk())
+                .andDo(document("auth-reissue",
+                        requestFields(
+                                fieldWithPath("accessToken").description("엑세스 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("accessToken").description("엑세스 토큰")
+                        )))
+                .andDo(print());
+    }
+
+
+    private UsernamePasswordAuthenticationToken getToken() {
+        return new UsernamePasswordAuthenticationToken("user@user.user", "user1234");
     }
 }
