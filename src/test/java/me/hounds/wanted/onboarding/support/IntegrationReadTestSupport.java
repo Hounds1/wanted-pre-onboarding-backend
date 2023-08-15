@@ -5,6 +5,8 @@ import me.hounds.wanted.onboarding.domain.board.domain.persist.BoardRepository;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentRepository;
 import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentService;
+import me.hounds.wanted.onboarding.domain.like.domain.persist.LikeRepository;
+import me.hounds.wanted.onboarding.domain.like.service.LikeService;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.MemberRepository;
 import me.hounds.wanted.onboarding.domain.member.service.MemberReadService;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
@@ -32,6 +34,9 @@ public abstract class IntegrationReadTestSupport {
     protected MemberService memberService;
 
     @Autowired
+    protected LikeService likeService;
+
+    @Autowired
     protected ContentRepository contentRepository;
 
     @Autowired
@@ -39,6 +44,9 @@ public abstract class IntegrationReadTestSupport {
 
     @Autowired
     protected MemberRepository memberRepository;
+
+    @Autowired
+    protected LikeRepository likeRepository;
 
     @Autowired
     protected PasswordEncoder passwordEncoder;

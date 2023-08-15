@@ -5,6 +5,8 @@ import me.hounds.wanted.onboarding.domain.auth.service.AuthService;
 import me.hounds.wanted.onboarding.domain.board.service.BoardService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentService;
+import me.hounds.wanted.onboarding.domain.like.domain.persist.LikeRepository;
+import me.hounds.wanted.onboarding.domain.like.service.LikeService;
 import me.hounds.wanted.onboarding.domain.member.service.MemberReadService;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
 import me.hounds.wanted.onboarding.global.jwt.TokenProvider;
@@ -43,6 +45,12 @@ public abstract class ControllerIntegrationTestSupport {
 
     @MockBean
     protected ContentReadService contentReadService;
+
+    @MockBean
+    protected LikeService likeService;
+
+    @MockBean
+    protected LikeRepository likeRepository;
 
     @Autowired
     protected MockMvc mockMvc;

@@ -34,7 +34,12 @@ public enum ErrorCode {
     /**
      * Content
      */
-    CONTENT_NOT_FOUND(400, "B001", "존재하지 않는 게시글입니다.");
+    CONTENT_NOT_FOUND(400, "CO001", "존재하지 않는 게시글입니다."),
+
+    /**
+     * Like
+     */
+    LIKE_HAS_PROBLEM(500, "LI001", "잠시 후 다시 시도해주세요.");
 
     private final int code;
     private final String status;

@@ -7,6 +7,8 @@ import me.hounds.wanted.onboarding.domain.board.service.BoardService;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentRepository;
 import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentService;
+import me.hounds.wanted.onboarding.domain.like.domain.persist.LikeRepository;
+import me.hounds.wanted.onboarding.domain.like.service.LikeService;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.MemberRepository;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public abstract class IntegrationTestSupport {
     protected ContentService contentService;
 
     @Autowired
+    protected LikeService likeService;
+
+    @Autowired
     protected MemberRepository memberRepository;
 
     @Autowired
@@ -40,6 +45,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected ContentRepository contentRepository;
+
+    @Autowired
+    protected LikeRepository likeRepository;
 
     @Autowired
     protected PasswordEncoder passwordEncoder;

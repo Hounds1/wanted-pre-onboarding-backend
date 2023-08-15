@@ -28,8 +28,13 @@ public enum EndPoints {
     USER_CONTENT("/api/v1/{boardId}/contents"),
     USER_CONTENT_DELETE("/api/v1/contents/{contentId}"),
     PUBLIC_CONTENT_PAGING("/api/v1/public/{boardId}/contents"),
-    PUBLIC_CONTENT_ID("/api/v1//public/contents");
+    PUBLIC_CONTENT_ID("/api/v1//public/contents"),
 
+    /**
+     *
+     */
+
+    REQUEST_LIKE("/api/v1/{contentId}/likes");
 
     private final String url;
     EndPoints(String url) {
