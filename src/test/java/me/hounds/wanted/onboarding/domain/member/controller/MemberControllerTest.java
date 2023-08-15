@@ -2,13 +2,18 @@ package me.hounds.wanted.onboarding.domain.member.controller;
 
 import me.hounds.wanted.onboarding.domain.member.domain.dto.JoinRequest;
 import me.hounds.wanted.onboarding.domain.member.domain.dto.SimpleMemberResponse;
+import me.hounds.wanted.onboarding.domain.member.domain.dto.UpdateMemberRequest;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.Member;
 import me.hounds.wanted.onboarding.domain.member.domain.vo.RoleType;
 import me.hounds.wanted.onboarding.support.ControllerIntegrationTestSupport;
+import me.hounds.wanted.onboarding.support.EndPoints;
+import me.hounds.wanted.onboarding.support.annotations.withUser.WithUser;
 import me.hounds.wanted.onboarding.support.member.GivenMember;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.request.RequestDocumentation;
 
 import static me.hounds.wanted.onboarding.support.EndPoints.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -91,6 +97,100 @@ class MemberControllerTest extends ControllerIntegrationTestSupport {
                                 fieldWithPath("code").description("코드"),
                                 fieldWithPath("status").description("상태"),
                                 fieldWithPath("message").description("메시지")
+                        )))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("자신의 정보를 업데이트 할 수 있다.")
+    @WithUser
+    void update() throws Exception{
+        UpdateMemberRequest request = new UpdateMemberRequest(GivenMember.GIVEN_ADMIN_PASSWORD);
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        when(memberService.update(any(), any())).thenReturn(SimpleMemberResponse.of(GivenMember.givenMember()));
+
+        mockMvc.perform(RestDocumentationRequestBuilders.patch(MEMBER_WITH_AUTH.getUrl())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andExpect(status().isOk())
+                .andDo(document("member-update",
+                        requestFields(
+                                fieldWithPath("password").description("비밀번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("role").description("등급")
+                        )))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("로그인 하지 않았을 경우 업데이트가 거부된다.")
+    void updateWithoutAuth() throws Exception {
+        UpdateMemberRequest request = new UpdateMemberRequest(GivenMember.GIVEN_ADMIN_PASSWORD);
+        String requestJson = objectMapper.writeValueAsString(request);
+
+        when(memberService.update(any(), any())).thenReturn(SimpleMemberResponse.of(GivenMember.givenMember()));
+
+        mockMvc.perform(RestDocumentationRequestBuilders.patch(MEMBER_WITH_AUTH.getUrl())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isUnauthorized())
+                .andDo(document("member-update-denied",
+                        requestFields(
+                                fieldWithPath("password").description("비밀번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드"),
+                                fieldWithPath("status").description("상태값"),
+                                fieldWithPath("message").description("메시지")
+                        )))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("계정을 삭제(비활성화) 할 수 있다.")
+    @WithUser
+    void deleteAccount() throws Exception {
+        mockMvc.perform(RestDocumentationRequestBuilders.delete(MEMBER_WITH_AUTH.getUrl()))
+                .andExpect(status().isNoContent())
+                .andDo(document("member-delete"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원을 ID로 조회 할 수 있다.")
+    void findById() throws Exception {
+
+        when(memberReadService.findById(any())).thenReturn(SimpleMemberResponse.of(GivenMember.givenMember()));
+
+        mockMvc.perform(RestDocumentationRequestBuilders.get(PUBLIC_MEMBER_FIND.getUrl(), 1L))
+                .andExpect(status().isOk())
+                .andDo(document("member-search-id",
+                        pathParameters(
+                            parameterWithName("memberId").description("회원 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("role").description("등급")
+                        )))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("현재 로그인 중인 계정의 정보가 조회된다.")
+    @WithUser
+    void whoAmI() throws Exception {
+
+        when(memberReadService.myInfo(any())).thenReturn(SimpleMemberResponse.of(GivenMember.givenMember()));
+
+        mockMvc.perform(RestDocumentationRequestBuilders.get(MEMBER_WHO_AM_I.getUrl()))
+                .andExpect(status().isOk())
+                .andDo(document("member-search-me",
+                        responseFields(
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("role").description("등급")
                         )))
                 .andDo(print());
     }

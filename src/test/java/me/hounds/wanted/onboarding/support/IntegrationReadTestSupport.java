@@ -5,6 +5,9 @@ import me.hounds.wanted.onboarding.domain.board.domain.persist.BoardRepository;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentRepository;
 import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentService;
+import me.hounds.wanted.onboarding.domain.member.domain.persist.MemberRepository;
+import me.hounds.wanted.onboarding.domain.member.service.MemberReadService;
+import me.hounds.wanted.onboarding.domain.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,10 +26,19 @@ public abstract class IntegrationReadTestSupport {
     protected ContentService contentService;
 
     @Autowired
+    protected MemberReadService memberReadService;
+
+    @Autowired
+    protected MemberService memberService;
+
+    @Autowired
     protected ContentRepository contentRepository;
 
     @Autowired
     protected BoardRepository boardRepository;
+
+    @Autowired
+    protected MemberRepository memberRepository;
 
     @Autowired
     protected PasswordEncoder passwordEncoder;

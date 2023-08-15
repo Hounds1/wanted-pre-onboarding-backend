@@ -5,7 +5,9 @@ import me.hounds.wanted.onboarding.domain.auth.service.AuthService;
 import me.hounds.wanted.onboarding.domain.board.service.BoardService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentService;
+import me.hounds.wanted.onboarding.domain.member.service.MemberReadService;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
+import me.hounds.wanted.onboarding.global.jwt.TokenProvider;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public abstract class ControllerIntegrationTestSupport {
     protected MemberService memberService;
 
     @MockBean
+    protected MemberReadService memberReadService;
+
+    @MockBean
     protected AuthService authService;
 
     @MockBean
@@ -44,4 +49,7 @@ public abstract class ControllerIntegrationTestSupport {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected TokenProvider tokenProvider;
 }

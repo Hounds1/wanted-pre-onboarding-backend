@@ -51,3 +51,65 @@ include::{snippets}/member-join-denied-password-length/request-fields.adoc[]
 
 include::{snippets}/member-join-denied-password-length/http-response.adoc[]
 include::{snippets}/member-join-denied-password-length/response-fields.adoc[]
+
+[[resources-member-update]]
+== 회원 정보 업데이트
+
+=== 요청
+
+include::{snippets}/member-update/http-request.adoc[]
+include::{snippets}/member-update/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/member-update/http-response.adoc[]
+include::{snippets}/member-update/response-fields.adoc[]
+
+[[resources-member-update-denied]]
+== 회원 정보 업데이트 거부
+
+=== 요청
+
+include::{snippets}/member-update-denied/http-request.adoc[]
+include::{snippets}/member-update-denied/request-fields.adoc[]
+
+=== 응답
+
+include::{snippets}/member-update-denied/http-response.adoc[]
+include::{snippets}/member-update-denied/response-fields.adoc[]
+
+[[resources-member-delete]]
+== 로그인 중인 회원 정보 삭제(비활성화)
+
+=== 요청
+
+include::{snippets}/member-delete/http-request.adoc[]
+
+=== 응답
+
+include::{snippets}/member-delete/http-response.adoc[]
+
+[[resources-member-search-id]]
+== 회원 정보 검색(ID)
+
+=== 요청
+
+include::{snippets}/member-search-id/http-request.adoc[]
+include::{snippets}/member-search-id/path-parameters.adoc[]
+
+=== 응답
+
+include::{snippets}/member-search-id/http-response.adoc[]
+include::{snippets}/member-search-id/response-fields.adoc[]
+
+[[resources-member-who-am-i]]
+== 내 정보 불러오기
+
+=== 요청
+
+include::{snippets}/member-search-me/http-request.adoc[]
+
+=== 응답
+
+include::{snippets}/member-search-me/http-response.adoc[]
+include::{snippets}/member-search-me/response-fields.adoc[]

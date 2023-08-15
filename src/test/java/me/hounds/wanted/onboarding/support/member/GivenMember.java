@@ -8,8 +8,8 @@ public class GivenMember {
     public static final String GIVEN_EMAIL = "test@test.test";
     public static final String GIVEN_PASSWORD = "testTest";
 
-    private static final String GIVEN_ADMIN = "admin@admin.admin";
-    private static final String GIVEN_ADMIN_PASSWORD = "admin1234";
+    public static final String GIVEN_ADMIN = "admin@admin.admin";
+    public static final String GIVEN_ADMIN_PASSWORD = "admin1234";
 
     public static Member givenMember() {
         return Member.builder()

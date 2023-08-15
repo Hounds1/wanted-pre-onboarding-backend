@@ -17,11 +17,13 @@ public enum ErrorCode {
     DUPLICATE_EMAIL(400, "ME001", "이미 사용 중인 이메일입니다."),
     PASSWORD_LENGTH_REQUIRED(400, "ME002", "비밀번호는 8자 이상이어야 합니다."),
     MEMBER_NOT_FOUND(400, "ME003", "존재하지 않는 사용자입니다."),
+    IS_NOT_ADMIN(403, "ME004", "관리자 계정이 아닙니다."),
 
     /**
-     * Login
+     * Auth
      */
     TOKEN_NOT_FOUND(403, "AU001", "토큰 확인 중 이상이 감지되었습니다."),
+    CAN_NOT_REISSUE(403, "AU002", "재인증 할 수 없는 상태입니다."),
 
     /**
      * Board
