@@ -1,5 +1,6 @@
 # wanted-pre-onboarding-backend
-wanted-pre-onboarding-backend 요구 사항에 맞춰 구현한 게시판 예제입니다.
+- wanted-pre-onboarding-backend 요구 사항에 맞춰 구현한 게시판 예제입니다.
+- 코드는 dev 브랜치를 참조해주십시오.
 
 # API 제작 과제 기본 요구사항
 ## API 요구 사항
