@@ -47,3 +47,4 @@
 3. IntegrationTestSupporters 생성 및 테스트 의존성 통합
 4. 게시판 엔드포인트 생성(관리자가 아닐 경우 거부) (테스트 완료)
 5. Spring Rest Docs 적용 (현행 테스트 문서화 완료)
+6. 게시글 좋아요 기능
