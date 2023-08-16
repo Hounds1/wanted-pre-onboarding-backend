@@ -4,7 +4,7 @@
 
 # 동작 원리
 현재까지 구현된 동작은 대략적으로 다음과 같습니다.
-https://github.com/Hounds1/wanted-pre-onboarding-backend/assets/92633272/07e4ede8-fd39-4f60-b968-48cc5246da1b
+<img width="80%" src="https://github.com/Hounds1/wanted-pre-onboarding-backend/assets/92633272/07e4ede8-fd39-4f60-b968-48cc5246da1b/">
 
 # API 제작 과제 기본 요구사항
 ## API 요구 사항
