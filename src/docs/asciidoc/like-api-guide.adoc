@@ -1,0 +1,29 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+[[resources]]
+= Wanted pre onboarding backend
+
+[[resources-recommend]]
+= Like
+
+[[resources-recommend-and-dislike]]
+== 좋아요
+
+=== 요청
+
+include::{snippets}/recommend-and-dislike/http-request.adoc[]
+include::{snippets}/recommend-and-dislike/path-parameters.adoc[]
+
+=== 응답
+include::{snippets}/recommend-and-dislike/http-response.adoc[]
+
+! 이미 좋아요가 눌려있는 상태라면 해당 좋아요는 비활성화 됩니다.
+따라서, 좋아요 버튼을 클릭할 때 마다 ON/OFF 방식으로 작동한다고
+생각하시면 편합니다.

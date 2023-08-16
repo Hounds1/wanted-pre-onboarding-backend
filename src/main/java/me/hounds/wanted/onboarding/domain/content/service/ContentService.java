@@ -10,6 +10,8 @@ import me.hounds.wanted.onboarding.domain.content.domain.dto.UpdateContentReques
 import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentRepository;
 import me.hounds.wanted.onboarding.domain.content.error.ContentNotFoundException;
+import me.hounds.wanted.onboarding.domain.recommend.domain.persist.RecommendRepository;
+import me.hounds.wanted.onboarding.domain.recommend.service.RecommendService;
 import me.hounds.wanted.onboarding.global.common.error.MetaDataMismatchException;
 import me.hounds.wanted.onboarding.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ public class ContentService {
 
     private final BoardRepository boardRepository;
     private final ContentRepository contentRepository;
+    private final RecommendRepository recommendRepository;
+    private final RecommendService recommendService;
 
     public SimpleContentResponse create(final Content content, final Long boardId) {
         Board findBoard = boardRepository.findById(boardId)
@@ -33,7 +37,7 @@ public class ContentService {
 
         findBoard.addContent(savedContent);
 
-        return SimpleContentResponse.of(savedContent);
+        return SimpleContentResponse.of(savedContent, 0L);
     }
 
     public SimpleContentResponse update(final UpdateContentRequest request, final Long contentId, final String email) {
@@ -44,7 +48,9 @@ public class ContentService {
 
         findContent.update(request);
 
-        return SimpleContentResponse.of(findContent);
+        long count = recommendRepository.countByContentId(findContent.getId());
+
+        return SimpleContentResponse.of(findContent, count);
     }
 
     /**
@@ -56,6 +62,7 @@ public class ContentService {
 
         isCreatedBy(email, findContent.getCreateBy());
 
+        recommendService.deactivatedWithContent(findContent.getId());
         findContent.deactivated();
     }
 

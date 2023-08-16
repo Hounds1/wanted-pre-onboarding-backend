@@ -5,8 +5,9 @@ import me.hounds.wanted.onboarding.domain.auth.service.AuthService;
 import me.hounds.wanted.onboarding.domain.board.domain.persist.BoardRepository;
 import me.hounds.wanted.onboarding.domain.board.service.BoardService;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentRepository;
-import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentService;
+import me.hounds.wanted.onboarding.domain.recommend.domain.persist.RecommendRepository;
+import me.hounds.wanted.onboarding.domain.recommend.service.RecommendService;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.MemberRepository;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public abstract class IntegrationTestSupport {
     protected ContentService contentService;
 
     @Autowired
+    protected RecommendService recommendService;
+
+    @Autowired
     protected MemberRepository memberRepository;
 
     @Autowired
@@ -40,6 +44,9 @@ public abstract class IntegrationTestSupport {
 
     @Autowired
     protected ContentRepository contentRepository;
+
+    @Autowired
+    protected RecommendRepository recommendRepository;
 
     @Autowired
     protected PasswordEncoder passwordEncoder;

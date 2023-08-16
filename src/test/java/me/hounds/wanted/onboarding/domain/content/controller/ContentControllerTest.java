@@ -38,7 +38,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                 = new CreateContentRequest(GivenContent.GIVEN_TITLE, GivenContent.GIVEN_DETAIL);
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(), 1L)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -53,12 +53,14 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                                 fieldWithPath("detail").description("내용")
                         ),
                         responseFields(
+                                fieldWithPath("contentId").description("컨텐츠 ID"),
                                 fieldWithPath("title").description("제목"),
                                 fieldWithPath("detail").description("내용"),
                                 fieldWithPath("createdTime").description("생성 시간"),
                                 fieldWithPath("createdBy").description("게시자"),
                                 fieldWithPath("lastModifiedTime").description("최종 수정 시간"),
-                                fieldWithPath("lastModifiedBy").description("최종 수정자")
+                                fieldWithPath("lastModifiedBy").description("최종 수정자"),
+                                fieldWithPath("likeCount").description("좋아요 수")
                         )))
                 .andDo(print());
     }
@@ -70,7 +72,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                 = new CreateContentRequest(GivenContent.GIVEN_TITLE, GivenContent.GIVEN_DETAIL);
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -100,7 +102,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                 = new CreateContentRequest("", GivenContent.GIVEN_DETAIL);
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(),1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -130,7 +132,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                 = new CreateContentRequest(GivenContent.GIVEN_TITLE, "");
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.create(any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.post(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -161,27 +163,29 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
-        mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT_UPDATE.getUrl(), 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isOk())
                 .andDo(document("content-update" ,
                         pathParameters(
-                                parameterWithName("boardId").description("게시판 ID")
+                                parameterWithName("contentId").description("게시글 ID")
                         ),
                         requestFields(
                                 fieldWithPath("title").description("제목"),
                                 fieldWithPath("detail").description("내용")
                         ),
                         responseFields(
+                                fieldWithPath("contentId").description("컨텐츠 ID"),
                                 fieldWithPath("title").description("제목"),
                                 fieldWithPath("detail").description("내용"),
                                 fieldWithPath("createdTime").description("생성 시간"),
                                 fieldWithPath("createdBy").description("게시자"),
                                 fieldWithPath("lastModifiedTime").description("최종 수정 시간"),
-                                fieldWithPath("lastModifiedBy").description("최종 수정자")
+                                fieldWithPath("lastModifiedBy").description("최종 수정자"),
+                                fieldWithPath("likeCount").description("좋아요 수")
                         )))
                 .andDo(print());
     }
@@ -194,7 +198,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -225,7 +229,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -256,7 +260,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         String requestJson = objectMapper.writeValueAsString(request);
 
-        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount()));
+        when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
         mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -345,7 +349,7 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
     @DisplayName("작성된 컨텐츠를 ID로 선택하여 불러온다.")
     void findById() throws Exception {
         SimpleContentResponse response
-                = SimpleContentResponse.of(GivenContent.givenContentWithCount());
+                = SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L);
 
         when(contentReadService.findById(any())).thenReturn(response);
 
@@ -357,12 +361,14 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                                 parameterWithName("contentId").description("컨텐츠 ID")
                         ),
                         responseFields(
+                                fieldWithPath("contentId").description("컨텐츠 ID"),
                                 fieldWithPath("title").description("제목"),
                                 fieldWithPath("detail").description("내용"),
                                 fieldWithPath("createdTime").description("생성 시간"),
                                 fieldWithPath("createdBy").description("게시자"),
                                 fieldWithPath("lastModifiedTime").description("최종 수정 시간"),
-                                fieldWithPath("lastModifiedBy").description("최종 수정자")
+                                fieldWithPath("lastModifiedBy").description("최종 수정자"),
+                                fieldWithPath("likeCount").description("좋아요 수")
                         )))
                 .andDo(print());
     }

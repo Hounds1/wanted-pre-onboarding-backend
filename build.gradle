@@ -40,6 +40,11 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 
 	/**
+	 * Redis
+	 */
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	/**
 	 * Spring rest docs
 	 */
 	asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${asciidocVersion}"

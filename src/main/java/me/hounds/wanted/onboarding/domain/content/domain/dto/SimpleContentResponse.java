@@ -12,19 +12,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SimpleContentResponse {
 
+    private Long contentId;
+
     private String title;
 
     private String detail;
 
     private LocalDateTime createdTime;
 
-    private String CreatedBy;
+    private String createdBy;
 
     private LocalDateTime lastModifiedTime;
 
     private String lastModifiedBy;
-    public static SimpleContentResponse of(final Content content) {
-        return new SimpleContentResponse(content.getTitle(), content.getDetail(), content.getCreateTime(),
-                content.getCreateBy(), content.getLastModifiedDate(), content.getLastModifiedBy());
+
+    private long likeCount;
+    public static SimpleContentResponse of(final Content content, final long likeCount) {
+        return new SimpleContentResponse(content.getId() ,content.getTitle(), content.getDetail(), content.getCreateTime(),
+                content.getCreateBy(), content.getLastModifiedDate(), content.getLastModifiedBy(), likeCount);
     }
 }

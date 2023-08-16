@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +22,7 @@ class ContentReadServiceTest extends IntegrationReadTestSupport {
     Board board;
 
     @BeforeEach
+    @Transactional
     void init() {
       board = boardRepository.save(GivenBoard.givenBoardWithCount());
 
@@ -48,7 +50,7 @@ class ContentReadServiceTest extends IntegrationReadTestSupport {
 
     @Test
     @DisplayName("게시물의 ID로 해당 게시물을 조회한다.")
-    void findById()  {
+    void findById() throws Exception {
         Long id = board.getContents().get(0).getId();
         SimpleContentResponse response = contentReadService.findById(id);
 

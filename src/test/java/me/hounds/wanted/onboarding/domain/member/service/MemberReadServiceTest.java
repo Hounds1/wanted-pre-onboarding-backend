@@ -8,6 +8,7 @@ import me.hounds.wanted.onboarding.support.member.GivenMember;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +18,7 @@ class MemberReadServiceTest extends IntegrationReadTestSupport {
     Member member;
 
     @BeforeEach
+    @Transactional
     void init() {
         member = memberRepository.save(GivenMember.givenMember());
     }
