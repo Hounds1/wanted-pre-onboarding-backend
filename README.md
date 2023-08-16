@@ -2,6 +2,10 @@
 - wanted-pre-onboarding-backend 요구 사항에 맞춰 구현한 게시판 예제입니다.
 - 코드는 dev 브랜치를 참조해주십시오.
 
+# 동작 원리
+현재까지 구현된 동작은 대략적으로 다음과 같습니다.
+https://github.com/Hounds1/wanted-pre-onboarding-backend/assets/92633272/07e4ede8-fd39-4f60-b968-48cc5246da1b
+
 # API 제작 과제 기본 요구사항
 ## API 요구 사항
 게시판을 관리하는 RESTful API를 개발해 주세요. 이때, 다음의 기능을 구현해야 합니다. 데이터베이스의 테이블 설계는 지원자분의 판단에 맡겨져 있습니다. 요구사항을 충족시키는 데 필요하다고 생각되는 구조로 자유롭게 설계해 주세요.
