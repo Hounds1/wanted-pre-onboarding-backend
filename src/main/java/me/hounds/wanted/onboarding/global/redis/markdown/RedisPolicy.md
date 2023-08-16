@@ -36,7 +36,7 @@ RedisPrePatcher는 서버 초기 가동시 상위 추천수의 개시물 10개(�
    5. 동시에 클라이언트에서 상위 게시물을 노출시키기 위한 메타데이터를 함께 캐싱합니다.</br>
 "top-recommend-meta"를 Key로 저장되며 contentId, title, likeCount(좋아요 수)를 포함하고 있습니다.
    6. "top-recommend-{contentId}"는 각각의 게시물을 직렬화하여 저장하고 "top-recommend-meta"는 해당 게시물들의 메타데이터 리스트를 직렬화하여 저장합니다.
-
+- 추가적으로 RedisPrePatcher는 서버 최초 가동 시에 1번 그 후로는 매 시간 정각마다 데이터를 밀고 다시 캐싱하도록 설정되어 있습니다.
 
 ### 3. RedisKeys
 - RedisKeys는 큰 의미를 담고있지는 않습니다. 단지, Redis에서 사용하게 될 Key들을 용도에 따라 모아두고 사용할 수 있으면 <br>좋겠다고 생각하여 만든 Enum 클래스입니다.
