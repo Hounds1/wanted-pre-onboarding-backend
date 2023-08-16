@@ -9,6 +9,8 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableCaching
@@ -16,11 +18,17 @@ public class RedisConfig {
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+        RedisCacheConfiguration defaultCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(60));
+        RedisCacheConfiguration cacheContentConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofMinutes(30));
+
+        Map<String, RedisCacheConfiguration> cacheConfigurationMap = new HashMap<>();
+        cacheConfigurationMap.put("contentCache", cacheContentConfiguration);
 
         return RedisCacheManager.builder(redisConnectionFactory)
-                .cacheDefaults(redisCacheConfiguration)
+                .cacheDefaults(defaultCacheConfiguration)
+                .withInitialCacheConfigurations(cacheConfigurationMap)
                 .build();
     }
 }

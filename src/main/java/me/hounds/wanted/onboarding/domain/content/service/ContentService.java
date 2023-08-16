@@ -14,6 +14,7 @@ import me.hounds.wanted.onboarding.domain.recommend.domain.persist.RecommendRepo
 import me.hounds.wanted.onboarding.domain.recommend.service.RecommendService;
 import me.hounds.wanted.onboarding.global.common.error.MetaDataMismatchException;
 import me.hounds.wanted.onboarding.global.exception.ErrorCode;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

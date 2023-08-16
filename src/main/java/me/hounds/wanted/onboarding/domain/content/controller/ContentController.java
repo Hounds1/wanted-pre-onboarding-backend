@@ -69,7 +69,13 @@ public class ContentController {
                 .body(contentReadService.findById(contentId));
     }
 
-    @GetMapping("public/contents/top")
+    @GetMapping("/public/contents/top")
+    public ResponseEntity<SimpleContentResponse> findTopById(@RequestParam(name = "contentId") Long contentId) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(contentReadService.findTopById(contentId));
+    }
+
+    @GetMapping("public/contents/top/entry")
     public ResponseEntity<List<TopRateContentsResponse>> readTopRateFromRedis() throws Exception {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(contentReadService.readTopRateFromRedis());

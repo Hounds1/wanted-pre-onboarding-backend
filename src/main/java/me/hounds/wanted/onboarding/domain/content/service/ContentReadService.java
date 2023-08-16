@@ -13,6 +13,7 @@ import me.hounds.wanted.onboarding.domain.recommend.domain.persist.RecommendRepo
 import me.hounds.wanted.onboarding.global.common.CustomPageResponse;
 import me.hounds.wanted.onboarding.global.exception.ErrorCode;
 import me.hounds.wanted.onboarding.global.redis.RedisService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -50,19 +51,35 @@ public class ContentReadService {
     }
 
     /**
-     * Redis 조회로 캐싱된 게시물인지 판단 후 반환
+     * 일반 게시물 조회시 1시간 캐싱
      */
+    @Cacheable(value = "contentCache", key = "'caching-contents-' + #contentId")
     public SimpleContentResponse findById(final Long contentId) throws Exception {
-        String fromRedis = redisService.readFromRedis(TOP_RECOMMENDATION_UNIT.getKey() + contentId);
-        if (fromRedis != null) {
-            return mapper.readValue(fromRedis, SimpleContentResponse.class);
-        } else {
             Content findContent = contentRepository.findById(contentId)
                     .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
 
             long count = recommendRepository.countByContentId(contentId);
 
             return SimpleContentResponse.of(findContent, count);
+    }
+
+    public SimpleContentResponse findTopById(final Long contentId) throws Exception {
+        String fromRedis = redisService.readFromRedis(TOP_RECOMMENDATION_UNIT.getKey() + contentId);
+        if (fromRedis != null) {
+            log.info("[findTopById] :: This data has been come from Redis.");
+            return mapper.readValue(fromRedis, SimpleContentResponse.class);
+        } else {
+            log.info("[findTopById] :: Saved new data into Redis.");
+            Content findContent = contentRepository.findById(contentId)
+                    .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
+            long count = recommendRepository.countByContentId(contentId);
+
+            SimpleContentResponse response = SimpleContentResponse.of(findContent, count);
+            String responseJson = mapper.writeValueAsString(response);
+
+            redisService.writeToRedis(TOP_RECOMMENDATION_UNIT.getKey() + contentId, responseJson);
+
+            return response;
         }
     }
 
@@ -72,7 +89,7 @@ public class ContentReadService {
     public List<TopRateContentsResponse> readTopRateFromRedis() throws Exception {
 
         String jsonFromRedis
-                = redisService.readFromRedis(TOP_RECOMMENDATION.getKey());
+                = redisService.readFromRedis(TOP_RECOMMENDATION_META.getKey());
 
         if (!StringUtils.hasText(jsonFromRedis))
             return new ArrayList<>();

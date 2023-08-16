@@ -55,21 +55,21 @@ public class RedisPrePatcher {
             for (int i = 0; i < contentWithMostRecommends.size(); i++) {
                 Long targetId = (Long) contentWithMostRecommends.get(i)[0];
                 log.info("Target id is [{}]", targetId);
-                SimpleContentResponse response = contentReadService.findById(targetId);
+                SimpleContentResponse response = contentReadService.findTopById(targetId);
 
                 metas.add(TopRateContentsResponse.of(response));
 
                 String responseJSON = objectMapper.writeValueAsString(response);
                 String newKey = CONTENTS_KEY + targetId;
 
-                redisService.writeToRedisWithTTL(newKey, responseJSON, 1L);
+                redisService.writeToRedisWithTTL(newKey, responseJSON, 30L);
             }
         }
 
         String responseJson = objectMapper.writeValueAsString(metas);
         String metaKey = CONTENTS_KEY + "meta";
 
-        redisService.writeToRedisWithTTL(metaKey, responseJson, 1L);
+        redisService.writeToRedisWithTTL(metaKey, responseJson, 60L);
     }
 
     public Pageable getPageable() {

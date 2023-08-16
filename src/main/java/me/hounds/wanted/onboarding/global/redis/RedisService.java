@@ -25,8 +25,8 @@ public class RedisService {
         redisTemplate.opsForValue().set(key, value);
     }
 
-    public void writeToRedisWithTTL(final String key, final String value, final long hours) {
-        redisTemplate.opsForValue().set(key, value, hours, TimeUnit.HOURS);
+    public void writeToRedisWithTTL(final String key, final String value, final long mins) {
+        redisTemplate.opsForValue().set(key, value, mins, TimeUnit.MINUTES);
     }
 
     public String readFromRedis(final String key) {

@@ -5,12 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimpleContentResponse {
+public class SimpleContentResponse implements Serializable {
 
     private Long contentId;
 

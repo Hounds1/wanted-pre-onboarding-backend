@@ -5,8 +5,9 @@ import lombok.Getter;
 @Getter
 public enum RedisKeys {
 
-    TOP_RECOMMENDATION("top-recommend-meta"),
-    TOP_RECOMMENDATION_UNIT("top-recommend-");
+    TOP_RECOMMENDATION_META("top-recommend-meta"),
+    TOP_RECOMMENDATION_UNIT("top-recommend-"),
+    CASHING_CONTENTS("cashing-contents-");
 
 
     private final String key;
