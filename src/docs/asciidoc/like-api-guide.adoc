@@ -10,19 +10,19 @@
 [[resources]]
 = Wanted pre onboarding backend
 
-[[resources-like]]
+[[resources-recommend]]
 = Like
 
-[[resources-like-and-dislike]]
+[[resources-recommend-and-dislike]]
 == 좋아요
 
 === 요청
 
-include::{snippets}/like-and-dislike/http-request.adoc[]
-include::{snippets}/like-and-dislike/path-parameters.adoc[]
+include::{snippets}/recommend-and-dislike/http-request.adoc[]
+include::{snippets}/recommend-and-dislike/path-parameters.adoc[]
 
 === 응답
-include::{snippets}/like-and-dislike/http-response.adoc[]
+include::{snippets}/recommend-and-dislike/http-response.adoc[]
 
 ! 이미 좋아요가 눌려있는 상태라면 해당 좋아요는 비활성화 됩니다.
 따라서, 좋아요 버튼을 클릭할 때 마다 ON/OFF 방식으로 작동한다고

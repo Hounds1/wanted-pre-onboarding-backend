@@ -5,13 +5,12 @@ import me.hounds.wanted.onboarding.domain.auth.service.AuthService;
 import me.hounds.wanted.onboarding.domain.board.service.BoardService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentService;
-import me.hounds.wanted.onboarding.domain.like.domain.persist.LikeRepository;
-import me.hounds.wanted.onboarding.domain.like.service.LikeService;
+import me.hounds.wanted.onboarding.domain.recommend.domain.persist.RecommendRepository;
+import me.hounds.wanted.onboarding.domain.recommend.service.RecommendService;
 import me.hounds.wanted.onboarding.domain.member.service.MemberReadService;
 import me.hounds.wanted.onboarding.domain.member.service.MemberService;
 import me.hounds.wanted.onboarding.global.jwt.TokenProvider;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -47,10 +46,10 @@ public abstract class ControllerIntegrationTestSupport {
     protected ContentReadService contentReadService;
 
     @MockBean
-    protected LikeService likeService;
+    protected RecommendService recommendService;
 
     @MockBean
-    protected LikeRepository likeRepository;
+    protected RecommendRepository recommendRepository;
 
     @Autowired
     protected MockMvc mockMvc;

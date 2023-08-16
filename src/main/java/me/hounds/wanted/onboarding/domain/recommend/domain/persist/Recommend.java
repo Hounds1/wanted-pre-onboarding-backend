@@ -1,4 +1,4 @@
-package me.hounds.wanted.onboarding.domain.like.domain.persist;
+package me.hounds.wanted.onboarding.domain.recommend.domain.persist;
 
 import lombok.*;
 import me.hounds.wanted.onboarding.global.common.BaseTimeEntity;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Where(clause = "activated = true")
 @Table(name = "likes")
 @Builder
-public class Like extends BaseTimeEntity {
+public class Recommend extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id",updatable = false)
@@ -27,13 +27,13 @@ public class Like extends BaseTimeEntity {
 
     private boolean activated;
 
-    private Like(Long contentId, Long memberId) {
+    private Recommend(Long contentId, Long memberId) {
         this.contentId = contentId;
         this.memberId = memberId;
     }
 
-    public static Like of(final Long contentId, final Long memberId) {
-        return new Like(contentId, memberId);
+    public static Recommend of(final Long contentId, final Long memberId) {
+        return new Recommend(contentId, memberId);
     }
 
     public void activated() {

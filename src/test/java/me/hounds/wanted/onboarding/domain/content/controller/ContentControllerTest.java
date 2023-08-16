@@ -53,12 +53,14 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                                 fieldWithPath("detail").description("내용")
                         ),
                         responseFields(
+                                fieldWithPath("contentId").description("컨텐츠 ID"),
                                 fieldWithPath("title").description("제목"),
                                 fieldWithPath("detail").description("내용"),
                                 fieldWithPath("createdTime").description("생성 시간"),
                                 fieldWithPath("createdBy").description("게시자"),
                                 fieldWithPath("lastModifiedTime").description("최종 수정 시간"),
-                                fieldWithPath("lastModifiedBy").description("최종 수정자")
+                                fieldWithPath("lastModifiedBy").description("최종 수정자"),
+                                fieldWithPath("likeCount").description("좋아요 수")
                         )))
                 .andDo(print());
     }
@@ -163,25 +165,27 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
 
         when(contentService.update(any(), any(), any())).thenReturn(SimpleContentResponse.of(GivenContent.givenContentWithCount(), 0L));
 
-        mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT.getUrl(), 1L)
+        mockMvc.perform(RestDocumentationRequestBuilders.put(EndPoints.USER_CONTENT_UPDATE.getUrl(), 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isOk())
                 .andDo(document("content-update" ,
                         pathParameters(
-                                parameterWithName("boardId").description("게시판 ID")
+                                parameterWithName("contentId").description("게시글 ID")
                         ),
                         requestFields(
                                 fieldWithPath("title").description("제목"),
                                 fieldWithPath("detail").description("내용")
                         ),
                         responseFields(
+                                fieldWithPath("contentId").description("컨텐츠 ID"),
                                 fieldWithPath("title").description("제목"),
                                 fieldWithPath("detail").description("내용"),
                                 fieldWithPath("createdTime").description("생성 시간"),
                                 fieldWithPath("createdBy").description("게시자"),
                                 fieldWithPath("lastModifiedTime").description("최종 수정 시간"),
-                                fieldWithPath("lastModifiedBy").description("최종 수정자")
+                                fieldWithPath("lastModifiedBy").description("최종 수정자"),
+                                fieldWithPath("likeCount").description("좋아요 수")
                         )))
                 .andDo(print());
     }
@@ -357,12 +361,14 @@ class ContentControllerTest extends ControllerIntegrationTestSupport {
                                 parameterWithName("contentId").description("컨텐츠 ID")
                         ),
                         responseFields(
+                                fieldWithPath("contentId").description("컨텐츠 ID"),
                                 fieldWithPath("title").description("제목"),
                                 fieldWithPath("detail").description("내용"),
                                 fieldWithPath("createdTime").description("생성 시간"),
                                 fieldWithPath("createdBy").description("게시자"),
                                 fieldWithPath("lastModifiedTime").description("최종 수정 시간"),
-                                fieldWithPath("lastModifiedBy").description("최종 수정자")
+                                fieldWithPath("lastModifiedBy").description("최종 수정자"),
+                                fieldWithPath("likeCount").description("좋아요 수")
                         )))
                 .andDo(print());
     }

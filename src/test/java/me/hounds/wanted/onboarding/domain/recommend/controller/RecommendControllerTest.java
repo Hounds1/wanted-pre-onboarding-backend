@@ -1,36 +1,30 @@
-package me.hounds.wanted.onboarding.domain.like.controller;
+package me.hounds.wanted.onboarding.domain.recommend.controller;
 
 import me.hounds.wanted.onboarding.support.ControllerIntegrationTestSupport;
-import me.hounds.wanted.onboarding.support.EndPoints;
 import me.hounds.wanted.onboarding.support.annotations.withUser.WithUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.payload.PayloadDocumentation;
-import org.springframework.restdocs.request.RequestDocumentation;
 
 import static me.hounds.wanted.onboarding.support.EndPoints.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class LikeControllerTest extends ControllerIntegrationTestSupport {
+class RecommendControllerTest extends ControllerIntegrationTestSupport {
 
     @Test
     @DisplayName("게시글에 좋아요가 추가된다.")
     @WithUser
     void Test() throws Exception {
-        doNothing().when(likeService).likeAndDislike(any(), any());
+        doNothing().when(recommendService).likeAndDislike(any(), any());
 
         mockMvc.perform(RestDocumentationRequestBuilders.post(REQUEST_LIKE.getUrl(), 1L))
                 .andExpect(status().isOk())
-                .andDo(document("like-and-dislike",
+                .andDo(document("recommend-and-dislike",
                         pathParameters(
                                 parameterWithName("contentId").description("컨텐츠 아이디")
                         )))

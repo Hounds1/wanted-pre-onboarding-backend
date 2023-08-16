@@ -3,10 +3,12 @@ package me.hounds.wanted.onboarding.domain.content.controller;
 import lombok.RequiredArgsConstructor;
 import me.hounds.wanted.onboarding.domain.content.domain.dto.CreateContentRequest;
 import me.hounds.wanted.onboarding.domain.content.domain.dto.SimpleContentResponse;
+import me.hounds.wanted.onboarding.domain.content.domain.dto.TopRateContentsResponse;
 import me.hounds.wanted.onboarding.domain.content.domain.dto.UpdateContentRequest;
 import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentService;
 import me.hounds.wanted.onboarding.global.common.CustomPageResponse;
+import me.hounds.wanted.onboarding.global.redis.RedisService;
 import me.hounds.wanted.onboarding.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,8 +64,14 @@ public class ContentController {
     }
 
     @GetMapping("/public/contents")
-    public ResponseEntity<SimpleContentResponse> findById(@RequestParam(name = "contentId") Long contentId) {
+    public ResponseEntity<SimpleContentResponse> findById(@RequestParam(name = "contentId") Long contentId) throws Exception {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(contentReadService.findById(contentId));
+    }
+
+    @GetMapping("public/contents/top")
+    public ResponseEntity<List<TopRateContentsResponse>> readTopRateFromRedis() throws Exception {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(contentReadService.readTopRateFromRedis());
     }
 }
