@@ -52,4 +52,4 @@
 4. 게시판 엔드포인트 생성(관리자가 아닐 경우 거부) (테스트 완료)
 5. Spring Rest Docs 적용 (현행 테스트 문서화 완료)
 6. 게시글 좋아요 기능
-7. 좋아요(추천) 수 상위 10개(임시) 캐싱 기능 (Redis) 문서는 [여기](https://github.com/Hounds1/wanted-pre-onboarding-backend/blob/dev/src/main/java/me/hounds/wanted/onboarding/global/redis/markdown/RedisPolicy.md)를 눌러주세요.
+7. 좋아요(추천) 수 상위 10개(임시) 캐싱 기능 (Redis) 문서는 [여기](https://github.com/Hounds1/wanted-pre-onboarding-backend/blob/dev/src/main/java/me/hounds/wanted/onboarding/global/redis/markdown/RedisPolicy.md)를 클릭해주세요.
