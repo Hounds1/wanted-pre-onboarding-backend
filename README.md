@@ -1,6 +1,6 @@
 # wanted-pre-onboarding-backend
 - wanted-pre-onboarding-backend 요구 사항에 맞춰 구현한 게시판 예제입니다.
-- 코드는 dev 브랜치를 참조해주십시오.
+- 코드는 [dev 브랜치](https://github.com/Hounds1/wanted-pre-onboarding-backend/tree/dev)를 참조해주십시오.
 
 # 동작 원리
 현재까지 구현된 동작은 대략적으로 다음과 같습니다.
