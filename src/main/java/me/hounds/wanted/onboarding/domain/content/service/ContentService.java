@@ -53,6 +53,7 @@ public class ContentService {
         return SimpleContentResponse.of(savedContent, 0L);
     }
 
+    // TODO: 2023-08-29 update 및 delete 시 Redis에도 함께 반영 될 수 있도록 수정
     public SimpleContentResponse update(final UpdateContentRequest request, final Long contentId, final String email) {
         Content findContent = contentRepository.findById(contentId)
                 .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));

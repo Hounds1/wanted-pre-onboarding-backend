@@ -38,6 +38,8 @@ public class ContentReadService {
     private final ObjectMapper mapper;
     private final RedisService redisService;
 
+
+    // TODO: 2023-08-29 가져 올 때 HashTag도 함께 가져올 수 있도록 수정
     public CustomPageResponse<SimpleContentResponse> findWithPaging(final Long boardId, final Pageable pageable) {
         Page<Content> findContents = contentRepository.findAllByBoardId(pageable, boardId);
 

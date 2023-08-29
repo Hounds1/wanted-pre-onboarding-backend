@@ -9,6 +9,8 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class OnboardingApplicationTests {
 
+	// TODO: 2023-08-29 HashTag 기능 테스트 코드 작성 및 기존 코드 수정
+
 	@Test
 	void contextLoads() {
 	}
