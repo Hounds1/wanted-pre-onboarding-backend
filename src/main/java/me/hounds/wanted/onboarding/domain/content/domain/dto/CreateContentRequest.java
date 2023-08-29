@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -17,6 +18,8 @@ public class CreateContentRequest {
 
     @NotBlank(message = "내용을 입력해주세요.")
     private String detail;
+
+    private List<String> hashTags;
 
     public Content toEntity() {
         return Content.builder()

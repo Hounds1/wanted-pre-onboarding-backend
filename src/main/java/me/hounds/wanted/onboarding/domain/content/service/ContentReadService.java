@@ -10,6 +10,7 @@ import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentReposito
 import me.hounds.wanted.onboarding.domain.content.error.CannotReadContentsException;
 import me.hounds.wanted.onboarding.domain.content.error.ContentNotFoundException;
 import me.hounds.wanted.onboarding.domain.recommend.domain.persist.RecommendRepository;
+import me.hounds.wanted.onboarding.domain.recommend.service.RecommendReadService;
 import me.hounds.wanted.onboarding.global.common.CustomPageResponse;
 import me.hounds.wanted.onboarding.global.exception.ErrorCode;
 import me.hounds.wanted.onboarding.global.redis.RedisService;
@@ -33,7 +34,7 @@ import static me.hounds.wanted.onboarding.global.redis.vo.RedisKeys.*;
 public class ContentReadService {
 
     private final ContentRepository contentRepository;
-    private final RecommendRepository recommendRepository;
+    private final RecommendReadService recommendReadService;
     private final ObjectMapper mapper;
     private final RedisService redisService;
 
@@ -42,23 +43,22 @@ public class ContentReadService {
 
         Page<SimpleContentResponse> mappedResponse
                 = findContents.map(content -> {
-            long count = recommendRepository.countByContentId(content.getId());
+            long count = recommendReadService.countByContentId(content.getId());
             return SimpleContentResponse.of(content, count);
         });
-
 
         return CustomPageResponse.of(mappedResponse);
     }
 
     /**
-     * 일반 게시물 조회시 1시간 캐싱
+     * 일반 게시물 조회시 30분 캐싱
      */
     @Cacheable(value = "contentCache", key = "'caching-contents-' + #contentId")
     public SimpleContentResponse findById(final Long contentId) throws Exception {
             Content findContent = contentRepository.findById(contentId)
                     .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
 
-            long count = recommendRepository.countByContentId(contentId);
+            long count = recommendReadService.countByContentId(contentId);
 
             return SimpleContentResponse.of(findContent, count);
     }
@@ -66,13 +66,13 @@ public class ContentReadService {
     public SimpleContentResponse findTopById(final Long contentId) throws Exception {
         String fromRedis = redisService.readFromRedis(TOP_RECOMMENDATION_UNIT.getKey() + contentId);
         if (fromRedis != null) {
-            log.info("[findTopById] :: This data has been come from Redis.");
+            log.info("[findTopById] :: This data has been came from Redis.");
             return mapper.readValue(fromRedis, SimpleContentResponse.class);
         } else {
             log.info("[findTopById] :: Saved new data into Redis.");
             Content findContent = contentRepository.findById(contentId)
                     .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
-            long count = recommendRepository.countByContentId(contentId);
+            long count = recommendReadService.countByContentId(contentId);
 
             SimpleContentResponse response = SimpleContentResponse.of(findContent, count);
             String responseJson = mapper.writeValueAsString(response);
@@ -91,10 +91,12 @@ public class ContentReadService {
         String jsonFromRedis
                 = redisService.readFromRedis(TOP_RECOMMENDATION_META.getKey());
 
-        if (!StringUtils.hasText(jsonFromRedis))
+        if (!StringUtils.hasText(jsonFromRedis)) {
+            log.info("[ContentReadService :: readTopRateFromRedis] :: No data from redis. The method has been returned empty ArrayList");
             return new ArrayList<>();
+        }
 
-        log.info("cache data is [{}]", jsonFromRedis);
+        log.info("[ContentReadService :: readTopRateFromRedis] :: cache data is [{}]", jsonFromRedis);
 
         try {
             TopRateContentsResponse[] contentArray
@@ -105,4 +107,6 @@ public class ContentReadService {
             throw new CannotReadContentsException(ErrorCode.CAN_NOT_READ_CONTENTS);
         }
     }
+
+
 }

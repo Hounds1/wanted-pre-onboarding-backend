@@ -34,9 +34,19 @@ RedisPrePatcher는 서버 초기 가동시 상위 추천수의 개시물 10개(�
    4. 추출한 contentId List를 사용하여 ContentReadService를 호출하고 SimpleContentResponse를 돌려받고 각 contentId에 따라<br>
 "top-recommend-{contentId}"를 Key로 사용하여 Redis에 적재합니다.
    5. 동시에 클라이언트에서 상위 게시물을 노출시키기 위한 메타데이터를 함께 캐싱합니다.</br>
-"top-recommend-meta"를 Key로 저장되며 contentId, title, likeCount(좋아요 수)를 포함하고 있습니다.
+"top-recommend-meta"를 Key로 저장하며 contentId, title, likeCount(좋아요 수)를 포함하고 있습니다.
    6. "top-recommend-{contentId}"는 각각의 게시물을 직렬화하여 저장하고 "top-recommend-meta"는 해당 게시물들의 메타데이터 리스트를 직렬화하여 저장합니다.
 - 추가적으로 RedisPrePatcher는 서버 최초 가동 시에 1번 그 후로는 매 시간 정각마다 데이터를 밀고 다시 캐싱하도록 설정되어 있습니다.
 
 ### 3. RedisKeys
 - RedisKeys는 큰 의미를 담고있지는 않습니다. 단지, Redis에서 사용하게 될 Key들을 용도에 따라 모아두고 사용할 수 있으면 <br>좋겠다고 생각하여 만든 Enum 클래스입니다.
+
+---
+## 운영 현황
+
+### 1. 일반 게시물 캐싱
+- 최신 글들은 페이지 앞 쪽에 위치하기 때문에 여러 사람에 의해 호출 될 가능성이 높습니다.<br>
+ 그렇기 때문에 어떤 게시물이 조회 된다면 30분의 유효 시간을 가지고 캐싱됩니다.
+
+### 2. 상위 추천 수 게시물 캐싱
+- RedisPrePatcher의 동작 원리 그대로 캐싱을 진행합니다.

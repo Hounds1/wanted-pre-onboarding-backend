@@ -50,6 +50,7 @@ public class Content extends BaseEntity {
     public void deactivated() {
         this.activated = false;
         recordDeleteTime();
+        recordDeleteBy();
     }
 
     @Override

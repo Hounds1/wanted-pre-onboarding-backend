@@ -19,20 +19,24 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisService {
 
+    // TODO: 2023-08-21 Update , Delete 시 Redis에 반영
+
     private final StringRedisTemplate redisTemplate;
 
     public void writeToRedis(final String key, final String value) {
+        log.info("[RedisService] :: The Data has been saved into Redis. [{}]", key);
         redisTemplate.opsForValue().set(key, value);
     }
 
     public void writeToRedisWithTTL(final String key, final String value, final long mins) {
+        log.info("[RedisService] :: The Data has been saved into Redis with TTL. [{}]", key);
         redisTemplate.opsForValue().set(key, value, mins, TimeUnit.MINUTES);
     }
 
     public String readFromRedis(final String key) {
         String result = redisTemplate.opsForValue().get(key);
         if (result != null)
-            log.info("This data has been retrieved from Redis. : [{}]", key);
+            log.info("[RedisService] :: This data has been retrieved from Redis. : [{}]", key);
 
         return result;
     }
@@ -42,17 +46,17 @@ public class RedisService {
     }
 
     public boolean removeKeysWithPattern(final String pattern) {
-        log.info("Removing keys matching the pattern '[{}]' from Redis.", pattern);
+        log.info("[RedisService] :: Removing keys matching the pattern '[{}]' from Redis.", pattern);
 
         Set<String> keys = redisTemplate.keys(pattern);
 
         assert keys != null;
         if (!keys.isEmpty()) {
-            log.info("All keys matching the pattern have been removed from Redis. : [{}]", pattern);
+            log.info("[RedisService] :: All keys matching the pattern have been removed from Redis. : [{}]", pattern);
             redisTemplate.delete(keys);
             return true;
         } else {
-            log.info("Result is empty.");
+            log.info("[RedisService] :: Result is empty.");
             return true;
         }
     }

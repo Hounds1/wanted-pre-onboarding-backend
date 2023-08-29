@@ -102,14 +102,9 @@ public class TokenProvider implements InitializingBean {
                     .parseClaimsJws(token);
 
             return true;
-        } catch (SecurityException | MalformedJwtException e) {
-            log.error("잘못된 JWT 서명입니다.");
-        } catch (ExpiredJwtException e) {
-            log.error("만료된 JWT 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            log.error("지원하지 않는 JWT 토큰입니다.");
-        } catch (IllegalArgumentException e) {
-            log.error("잘못된 JWT 토큰입니다.");
+        } catch (SecurityException | MalformedJwtException | IllegalArgumentException | ExpiredJwtException |
+                 UnsupportedJwtException e) {
+            log.error("[TokenProvider] :: " + e.getMessage());
         }
 
         return false;

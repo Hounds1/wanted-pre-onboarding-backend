@@ -1,10 +1,13 @@
 package me.hounds.wanted.onboarding.support.annotations.withAdmin;
 
 import me.hounds.wanted.onboarding.global.security.principal.CustomUserDetails;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
+import org.springframework.stereotype.Component;
+
 
 public class WithAdminSecurityContextFactory implements WithSecurityContextFactory<WithAdmin> {
     @Override

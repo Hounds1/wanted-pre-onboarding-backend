@@ -28,7 +28,8 @@ public class JwtFilter extends GenericFilter {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
-            log.error("유효한 JWT 토큰이 없습니다. Request URI : [{}]", requestURI);
+            if (!requestURI.startsWith("/api/v1/public"))
+                log.error("유효한 JWT 토큰이 없습니다. Request URI : [{}]", requestURI);
         }
 
         chain.doFilter(request, response);

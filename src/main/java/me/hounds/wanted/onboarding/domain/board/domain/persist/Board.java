@@ -45,6 +45,7 @@ public class Board extends BaseEntity {
     public void deactivated() {
         this.activated = false;
         recordDeleteTime();
+        recordDeleteBy();
     }
 
     public void addContent(final Content content) {

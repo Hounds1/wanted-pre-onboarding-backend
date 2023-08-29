@@ -40,8 +40,12 @@ public enum ErrorCode {
     /**
      * Like
      */
-    LIKE_HAS_PROBLEM(500, "LI001", "잠시 후 다시 시도해주세요.");
+    LIKE_HAS_PROBLEM(500, "LI001", "잠시 후 다시 시도해주세요."),
 
+    /**
+     * HashTag
+     */
+    CAN_NOT_USE_TARGET_TAG(400, "HA001", "해당 태그를 사용할 수 없는 상태입니다. 잠시 후 시도해주십시오.");
     private final int code;
     private final String status;
     private final String message;

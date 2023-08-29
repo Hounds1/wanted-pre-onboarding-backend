@@ -39,22 +39,28 @@ public class RedisPrePatcher {
      * 다시 캐싱합니다.
      */
     @PostConstruct
-    @Scheduled(cron = "0 0 * * *")
-    public void initializeTopRecommendation() throws Exception {
-        if (redisService.removeKeysWithPattern(REMOVE_PATTERN))
-            initializeRedisWithContent();
+    @Scheduled(cron = "0 0 * * * *")
+    public void initializeTopRecommendation() {
+        try {
+            log.info("[RedisPrePatcher] :: RedisPrePatcher is loading data from the database.");
+            if (redisService.removeKeysWithPattern(REMOVE_PATTERN))
+                initializeRedisWithContent();
+        } catch (Exception e) {
+            log.error("[RedisPrePatcher] :: RedisPrePatcher has encountered a problem while loading from the database.");
+        }
     }
 
     public void initializeRedisWithContent() throws Exception {
+        /**
+         * Object 배열 구성요쇼 [0] : contentID , [1] : likeCount
+         */
         List<Object[]> contentWithMostRecommends = recommendRepository.findContentWithMostLikes(getPageable());
         List<TopRateContentsResponse> metas = new ArrayList<>();
-
-        log.info("Lists size is [{}]", contentWithMostRecommends.size());
 
         if (!contentWithMostRecommends.isEmpty()) {
             for (int i = 0; i < contentWithMostRecommends.size(); i++) {
                 Long targetId = (Long) contentWithMostRecommends.get(i)[0];
-                log.info("Target id is [{}]", targetId);
+
                 SimpleContentResponse response = contentReadService.findTopById(targetId);
 
                 metas.add(TopRateContentsResponse.of(response));

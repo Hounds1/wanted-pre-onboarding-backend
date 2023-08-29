@@ -8,7 +8,8 @@ import me.hounds.wanted.onboarding.domain.content.domain.dto.UpdateContentReques
 import me.hounds.wanted.onboarding.domain.content.service.ContentReadService;
 import me.hounds.wanted.onboarding.domain.content.service.ContentService;
 import me.hounds.wanted.onboarding.global.common.CustomPageResponse;
-import me.hounds.wanted.onboarding.global.redis.RedisService;
+import me.hounds.wanted.onboarding.global.exception.ErrorCode;
+import me.hounds.wanted.onboarding.global.jwt.error.TokenNotFoundException;
 import me.hounds.wanted.onboarding.global.security.principal.CustomUserDetails;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -33,7 +34,7 @@ public class ContentController {
     public ResponseEntity<SimpleContentResponse> create(@RequestBody @Valid CreateContentRequest request,
                                                         @PathVariable Long boardId) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(contentService.create(request.toEntity(), boardId));
+                .body(contentService.create(request.toEntity(), boardId, request.getHashTags()));
     }
 
     @PutMapping("/{contentId}/contents")
@@ -58,7 +59,7 @@ public class ContentController {
      */
     @GetMapping("/public/{boardId}/contents")
     public ResponseEntity<CustomPageResponse<SimpleContentResponse>> findContentsByPaging(@PathVariable Long boardId,
-                                                                                          @PageableDefault(size = 20, sort = "title", direction = Sort.Direction.ASC) Pageable pageable) {
+                                                                                          @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(contentReadService.findWithPaging(boardId, pageable));
     }
