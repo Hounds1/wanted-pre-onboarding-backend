@@ -47,6 +47,7 @@ public class RedisPrePatcher {
                 initializeRedisWithContent();
         } catch (Exception e) {
             log.error("[RedisPrePatcher] :: RedisPrePatcher has encountered a problem while loading from the database.");
+            e.printStackTrace();
         }
     }
 

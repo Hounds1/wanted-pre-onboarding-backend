@@ -37,7 +37,7 @@ public class HashTagService {
     }
 
     /**
-     * for create()
+     * common
      */
 
     private boolean isPresent(final String tagName) {

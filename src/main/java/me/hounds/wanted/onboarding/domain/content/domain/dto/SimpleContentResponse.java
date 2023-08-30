@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
+import me.hounds.wanted.onboarding.domain.hashtag.domain.dto.SimpleHashTagResponse;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -28,8 +30,10 @@ public class SimpleContentResponse implements Serializable {
     private String lastModifiedBy;
 
     private long likeCount;
-    public static SimpleContentResponse of(final Content content, final long likeCount) {
+
+    private List<SimpleHashTagResponse> hashTags;
+    public static SimpleContentResponse of(final Content content, final long likeCount, List<SimpleHashTagResponse> hashTags) {
         return new SimpleContentResponse(content.getId() ,content.getTitle(), content.getDetail(), content.getCreateTime(),
-                content.getCreateBy(), content.getLastModifiedDate(), content.getLastModifiedBy(), likeCount);
+                content.getCreateBy(), content.getLastModifiedDate(), content.getLastModifiedBy(), likeCount, hashTags);
     }
 }

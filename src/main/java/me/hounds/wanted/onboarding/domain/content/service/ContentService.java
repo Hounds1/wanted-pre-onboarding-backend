@@ -3,8 +3,6 @@ package me.hounds.wanted.onboarding.domain.content.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.hounds.wanted.onboarding.domain.board.domain.persist.Board;
-import me.hounds.wanted.onboarding.domain.board.domain.persist.BoardRepository;
-import me.hounds.wanted.onboarding.domain.board.error.BoardNotFoundException;
 import me.hounds.wanted.onboarding.domain.board.service.BoardReadService;
 import me.hounds.wanted.onboarding.domain.content.domain.dto.SimpleContentResponse;
 import me.hounds.wanted.onboarding.domain.content.domain.dto.UpdateContentRequest;
@@ -13,9 +11,10 @@ import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentReposito
 import me.hounds.wanted.onboarding.domain.content.error.ContentNotFoundException;
 import me.hounds.wanted.onboarding.domain.contentwithtag.service.ContentWithHashTagService;
 import me.hounds.wanted.onboarding.domain.hashtag.domain.dto.CreateHashTagRequest;
+import me.hounds.wanted.onboarding.domain.hashtag.domain.dto.SimpleHashTagResponse;
 import me.hounds.wanted.onboarding.domain.hashtag.domain.persist.HashTag;
+import me.hounds.wanted.onboarding.domain.hashtag.service.HashTagReadService;
 import me.hounds.wanted.onboarding.domain.hashtag.service.HashTagService;
-import me.hounds.wanted.onboarding.domain.recommend.domain.persist.RecommendRepository;
 import me.hounds.wanted.onboarding.domain.recommend.service.RecommendReadService;
 import me.hounds.wanted.onboarding.domain.recommend.service.RecommendService;
 import me.hounds.wanted.onboarding.global.common.error.MetaDataMismatchException;
@@ -36,6 +35,7 @@ public class ContentService {
     private final RecommendReadService recommendReadService;
     private final RecommendService recommendService;
     private final HashTagService hashTagService;
+    private final HashTagReadService hashTagReadService;
     private final ContentWithHashTagService contentWithHashTagService;
 
     public SimpleContentResponse create(final Content content, final Long boardId, final List<String> hashTags) {
@@ -50,10 +50,12 @@ public class ContentService {
         if (!hashTags.isEmpty())
             generateHashTag(hashTags, savedContent);
 
-        return SimpleContentResponse.of(savedContent, 0L);
+        List<SimpleHashTagResponse> savedTags = hashTagReadService.findAllByContentId(savedContent);
+
+        return SimpleContentResponse.of(savedContent, 0L, savedTags);
     }
 
-    // TODO: 2023-08-29 update 및 delete 시 Redis에도 함께 반영 될 수 있도록 수정
+    // TODO: 2023-08-29 update 및 delete 시 Redis에도 함께 반영 될 수 있도록 수정 + HashTag 수정 기능 추가
     public SimpleContentResponse update(final UpdateContentRequest request, final Long contentId, final String email) {
         Content findContent = contentRepository.findById(contentId)
                 .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
@@ -63,8 +65,9 @@ public class ContentService {
         findContent.update(request);
 
         long count = recommendReadService.countByContentId(findContent.getId());
+        List<SimpleHashTagResponse> hashTags = hashTagReadService.findAllByContentId(findContent);
 
-        return SimpleContentResponse.of(findContent, count);
+        return SimpleContentResponse.of(findContent, count, hashTags);
     }
 
     /**

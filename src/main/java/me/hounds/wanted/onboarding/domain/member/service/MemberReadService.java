@@ -6,6 +6,7 @@ import me.hounds.wanted.onboarding.domain.member.domain.persist.Member;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.MemberRepository;
 import me.hounds.wanted.onboarding.domain.member.error.MemberNotFoundException;
 import me.hounds.wanted.onboarding.global.exception.ErrorCode;
+import me.hounds.wanted.onboarding.global.security.principal.CustomUserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,5 +29,15 @@ public class MemberReadService {
                 .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         return SimpleMemberResponse.of(findMember);
+    }
+
+    /**
+     * for AuthService -> login
+     */
+    public CustomUserDetails findDetailsByEmail(final String email) {
+        Member findMember = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        return CustomUserDetails.of(findMember);
     }
 }

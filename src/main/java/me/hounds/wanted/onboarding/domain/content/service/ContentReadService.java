@@ -9,6 +9,8 @@ import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.ContentRepository;
 import me.hounds.wanted.onboarding.domain.content.error.CannotReadContentsException;
 import me.hounds.wanted.onboarding.domain.content.error.ContentNotFoundException;
+import me.hounds.wanted.onboarding.domain.hashtag.domain.dto.SimpleHashTagResponse;
+import me.hounds.wanted.onboarding.domain.hashtag.service.HashTagReadService;
 import me.hounds.wanted.onboarding.domain.recommend.domain.persist.RecommendRepository;
 import me.hounds.wanted.onboarding.domain.recommend.service.RecommendReadService;
 import me.hounds.wanted.onboarding.global.common.CustomPageResponse;
@@ -35,18 +37,19 @@ public class ContentReadService {
 
     private final ContentRepository contentRepository;
     private final RecommendReadService recommendReadService;
+    private final HashTagReadService hashTagReadService;
     private final ObjectMapper mapper;
     private final RedisService redisService;
 
 
-    // TODO: 2023-08-29 가져 올 때 HashTag도 함께 가져올 수 있도록 수정
     public CustomPageResponse<SimpleContentResponse> findWithPaging(final Long boardId, final Pageable pageable) {
         Page<Content> findContents = contentRepository.findAllByBoardId(pageable, boardId);
 
         Page<SimpleContentResponse> mappedResponse
                 = findContents.map(content -> {
             long count = recommendReadService.countByContentId(content.getId());
-            return SimpleContentResponse.of(content, count);
+            List<SimpleHashTagResponse> hashTags = hashTagReadService.findAllByContentId(content);
+            return SimpleContentResponse.of(content, count, hashTags);
         });
 
         return CustomPageResponse.of(mappedResponse);
@@ -57,12 +60,13 @@ public class ContentReadService {
      */
     @Cacheable(value = "contentCache", key = "'caching-contents-' + #contentId")
     public SimpleContentResponse findById(final Long contentId) throws Exception {
-            Content findContent = contentRepository.findById(contentId)
-                    .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
+        Content findContent = contentRepository.findById(contentId)
+                .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
 
-            long count = recommendReadService.countByContentId(contentId);
+        long count = recommendReadService.countByContentId(contentId);
+        List<SimpleHashTagResponse> hashTags = hashTagReadService.findAllByContentId(findContent);
 
-            return SimpleContentResponse.of(findContent, count);
+        return SimpleContentResponse.of(findContent, count, hashTags);
     }
 
     public SimpleContentResponse findTopById(final Long contentId) throws Exception {
@@ -75,8 +79,9 @@ public class ContentReadService {
             Content findContent = contentRepository.findById(contentId)
                     .orElseThrow(() -> new ContentNotFoundException(ErrorCode.CONTENT_NOT_FOUND));
             long count = recommendReadService.countByContentId(contentId);
+            List<SimpleHashTagResponse> hashTags = hashTagReadService.findAllByContentId(findContent);
 
-            SimpleContentResponse response = SimpleContentResponse.of(findContent, count);
+            SimpleContentResponse response = SimpleContentResponse.of(findContent, count, hashTags);
             String responseJson = mapper.writeValueAsString(response);
 
             redisService.writeToRedis(TOP_RECOMMENDATION_UNIT.getKey() + contentId, responseJson);
@@ -88,7 +93,7 @@ public class ContentReadService {
     /**
      * 캐싱된 상위 게시물 조회
      */
-    public List<TopRateContentsResponse> readTopRateFromRedis() throws Exception {
+    public List<TopRateContentsResponse> readTopRateFromRedis() {
 
         String jsonFromRedis
                 = redisService.readFromRedis(TOP_RECOMMENDATION_META.getKey());
