@@ -6,6 +6,7 @@ import me.hounds.wanted.onboarding.domain.content.domain.dto.UpdateContentReques
 import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
 import me.hounds.wanted.onboarding.domain.member.domain.persist.Member;
 import me.hounds.wanted.onboarding.global.common.error.MetaDataMismatchException;
+import me.hounds.wanted.onboarding.support.HashTag.GivenHashTag;
 import me.hounds.wanted.onboarding.support.IntegrationTestSupport;
 import me.hounds.wanted.onboarding.support.board.GivenBoard;
 import me.hounds.wanted.onboarding.support.content.GivenContent;
@@ -45,7 +46,7 @@ class ContentServiceTest extends IntegrationTestSupport {
     void create() {
         Content givenContent = GivenContent.givenContent();
 
-        SimpleContentResponse response = contentService.create(givenContent, board.getId());
+        SimpleContentResponse response = contentService.create(givenContent, board.getId(), GivenHashTag.getStringHashTags());
 
         assertThat(response.getTitle()).isEqualTo(givenContent.getTitle());
         assertThat(response.getDetail()).isEqualTo(givenContent.getDetail());

@@ -4,6 +4,7 @@ import me.hounds.wanted.onboarding.domain.board.domain.dto.SimpleBoardResponse;
 import me.hounds.wanted.onboarding.domain.board.domain.dto.UpdateBoardRequest;
 import me.hounds.wanted.onboarding.domain.board.domain.persist.Board;
 import me.hounds.wanted.onboarding.support.IntegrationTestSupport;
+import me.hounds.wanted.onboarding.support.annotations.withAdmin.WithAdmin;
 import me.hounds.wanted.onboarding.support.board.GivenBoard;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +45,7 @@ class BoardServiceTest extends IntegrationTestSupport {
 
     @Test
     @DisplayName("게시판을 삭제 할 수 있다.")
+    @WithAdmin
     void delete() {
         boardService.delete(board.getId());
 

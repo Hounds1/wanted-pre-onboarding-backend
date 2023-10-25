@@ -4,6 +4,7 @@ import me.hounds.wanted.onboarding.domain.board.domain.persist.Board;
 import me.hounds.wanted.onboarding.domain.content.domain.dto.SimpleContentResponse;
 import me.hounds.wanted.onboarding.domain.content.domain.persist.Content;
 import me.hounds.wanted.onboarding.global.common.CustomPageResponse;
+import me.hounds.wanted.onboarding.support.HashTag.GivenHashTag;
 import me.hounds.wanted.onboarding.support.IntegrationReadTestSupport;
 import me.hounds.wanted.onboarding.support.board.GivenBoard;
 import me.hounds.wanted.onboarding.support.content.GivenContent;
@@ -29,7 +30,7 @@ class ContentReadServiceTest extends IntegrationReadTestSupport {
       for (int i = 0; i < 30; i++) {
           Content givenContent = GivenContent.givenContent();
 
-          contentService.create(givenContent, board.getId());
+          contentService.create(givenContent, board.getId(), GivenHashTag.getStringHashTags());
       }
     }
 

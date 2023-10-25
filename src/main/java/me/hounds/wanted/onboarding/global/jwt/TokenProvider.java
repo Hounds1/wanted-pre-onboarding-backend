@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.hounds.wanted.onboarding.global.jwt.dto.TokenDTO;
 import me.hounds.wanted.onboarding.global.jwt.vo.AccessToken;
 import me.hounds.wanted.onboarding.global.jwt.vo.RefreshToken;
+import me.hounds.wanted.onboarding.global.security.principal.CustomUserDetails;
 import me.hounds.wanted.onboarding.global.security.principal.CustomUserDetailsService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,7 +90,7 @@ public class TokenProvider implements InitializingBean {
 
         String email = (String) claim.get("email");
 
-        UserDetails principal = detailsService.loadUserByUsername(email);
+        CustomUserDetails principal = detailsService.loadUserByUsername(email);
 
         return new UsernamePasswordAuthenticationToken(principal, "password", principal.getAuthorities());
     }
